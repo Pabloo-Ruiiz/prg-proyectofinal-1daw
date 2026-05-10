@@ -19,6 +19,24 @@ El sistema funcionará mediante menús por consola y almacenará la información
 
 ---
 
+# Trabajo en Equipo
+
+El proyecto será desarrollado en grupos de 3 personas utilizando un repositorio compartido en GitHub.
+
+Cada integrante será responsable de una parte concreta del proyecto.
+
+---
+
+# Objetivos del Proyecto
+
+- Aplicar programación orientada a objetos
+- Practicar trabajo en equipo
+- Utilizar Git y GitHub
+- Gestionar persistencia de datos
+- Diseñar aplicaciones Java modulares
+
+---
+
 # Estructura de Clases
 
 ## Clases Principales
@@ -190,35 +208,6 @@ Una vez dentro de la aplicación, el usuario podrá:
 - Git
 - GitHub
 - Persistencia mediante ficheros
-
----
-
-# Trabajo en Equipo
-
-El proyecto será desarrollado en grupos de 3 personas utilizando un repositorio compartido en GitHub.
-
-Cada integrante será responsable de una parte concreta del proyecto.
-
----
-
-# Posibles Entregas del Proyecto
-
-| Entrega | Contenido |
-|---|---|
-| 1 | Estructura inicial y diagrama de clases |
-| 2 | Login y gestión básica |
-| 3 | Eliminación y control de duplicados |
-| 4 | Interfaces y ordenaciones |
-
----
-
-# Objetivos del Proyecto
-
-- Aplicar programación orientada a objetos
-- Practicar trabajo en equipo
-- Utilizar Git y GitHub
-- Gestionar persistencia de datos
-- Diseñar aplicaciones Java modulares
 
 ---
 
