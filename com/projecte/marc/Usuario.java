@@ -59,10 +59,9 @@ public class Usuario implements Serializable {
         this.directores = new ArrayList<Director>();
         this.actores = new ArrayList<Actor>();
 
-        cargarDatosListasPersonales("peliculas.lista");
-        cargarDatosListasPersonales("directores.lista");
-        cargarDatosListasPersonales("actores.lista");
-
+        cargarDatosParticularesPeliculas();
+        cargarDatosParticularesDirectores();
+        cargarDatosParticularesActores();
     }
 
     // Getters i Setters
@@ -211,29 +210,18 @@ public class Usuario implements Serializable {
         return "" + this.nombre.charAt(0) + this.apellidos.charAt(0);
     }
 
-    public void cargarDatosListasPersonales(String fichero) {
+    public void cargarDatosParticularesPeliculas() {
 
         File file = new File(identificador());
 
         if (file.exists()) {
 
-            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(identificador() + "/" + fichero));) {
+            try (ObjectInputStream in = new ObjectInputStream(
+                    new FileInputStream(identificador() + "/peliculas.lista"));) {
 
-                if (fichero.equalsIgnoreCase("peliculas.datos")) {
-                    while (true) {
-                        Pelicula p = (Pelicula) in.readObject();
-                        peliculas.add(p);
-                    }
-                } else if (fichero.equalsIgnoreCase("directores.datos")) {
-                    while (true) {
-                        Director d = (Director) in.readObject();
-                        directores.add(d);
-                    }
-                } else {
-                    while (true) {
-                        Actor a = (Actor) in.readObject();
-                        actores.add(a);
-                    }
+                while (true) {
+                    Pelicula p = (Pelicula) in.readObject();
+                    peliculas.add(p);
                 }
 
             } catch (EOFException e) {
@@ -251,22 +239,71 @@ public class Usuario implements Serializable {
         }
     }
 
-    public void guardarDatosListasPersonales(String fichero) {
+    public void cargarDatosParticularesDirectores() {
 
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(identificador() + "/" + fichero));) {
+        File file = new File(identificador());
 
-            if (fichero.equalsIgnoreCase("peliculas.datos")) {
-                for (Pelicula p : peliculas) {
-                    out.writeObject(p.resumen());
+        if (file.exists()) {
+
+            try (ObjectInputStream in = new ObjectInputStream(
+                    new FileInputStream(identificador() + "/directores.lista"));) {
+
+                while (true) {
+                    Director d = (Director) in.readObject();
+                    directores.add(d);
                 }
-            } else if (fichero.equalsIgnoreCase("directores.datos")) {
-                for (Director d : directores) {
-                    out.writeObject(d.resumen());
+
+            } catch (EOFException e) {
+                // Fin del fichero
+            } catch (IOException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
+            }
+
+        } else {
+            throw new DatoInvalidoException("\nNo se ha creado ningun fichero aun.\n");
+        }
+    }
+
+    public void cargarDatosParticularesActores() {
+
+        File file = new File(identificador());
+
+        if (file.exists()) {
+
+            try (ObjectInputStream in = new ObjectInputStream(
+                    new FileInputStream(identificador() + "/actores.lista"));) {
+
+                while (true) {
+                    Actor a = (Actor) in.readObject();
+                    actores.add(a);
                 }
-            } else {
-                for (Actor a : actores) {
-                    out.writeObject(a.resumen());
-                }
+
+            } catch (EOFException e) {
+                // Fin del fichero
+            } catch (IOException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
+            }
+
+        } else {
+            throw new DatoInvalidoException("\nNo se ha creado ningun fichero aun.\n");
+        }
+    }
+
+    public void guardarDatosParticularesPeliculas() {
+
+        try (ObjectOutputStream out = new ObjectOutputStream(
+                new FileOutputStream(identificador() + "/peliculas.lista"));) {
+
+            for (Pelicula p : peliculas) {
+                out.writeObject(p.resumen());
             }
 
         } catch (IOException e) {
@@ -276,19 +313,53 @@ public class Usuario implements Serializable {
 
     }
 
-    public void mostrarDatosListasPersonales(String fichero) {
-        if (fichero.equalsIgnoreCase("peliculas.datos")) {
-            for (Pelicula p : peliculas) {
-                System.out.println(" - " + p.resumen());
-            }
-        } else if (fichero.equalsIgnoreCase("directores.datos")) {
+    public void guardarDatosParticularesDirectores() {
+
+        try (ObjectOutputStream out = new ObjectOutputStream(
+                new FileOutputStream(identificador() + "/directores.lista"));) {
+
             for (Director d : directores) {
-                System.out.println(" - " + d.resumen());
+                out.writeObject(d.resumen());
             }
-        } else {
+
+        } catch (IOException e) {
+            System.out.println("\n" + e.getMessage() + "\n");
+            e.printStackTrace();
+        }
+
+    }
+
+    public void guardarDatosParticularesActores() {
+
+        try (ObjectOutputStream out = new ObjectOutputStream(
+                new FileOutputStream(identificador() + "/actores.lista"));) {
+
             for (Actor a : actores) {
-                System.out.println(" - " + a.resumen());
+                out.writeObject(a.resumen());
             }
+
+        } catch (IOException e) {
+            System.out.println("\n" + e.getMessage() + "\n");
+            e.printStackTrace();
+        }
+
+    }
+
+    public void mostrarDatosParticularesPeliculas() {
+        for (Pelicula p : peliculas) {
+            System.out.println(" - " + p.resumen());
+        }
+    }
+
+    public void mostrarDatosParticularesDirectores() {
+        for (Director d : directores) {
+            System.out.println(" - " + d.resumen());
+        }
+    }
+
+    public void mostrarDatosParticularesActores() {
+        for (Actor a : actores) {
+            System.out.println(" - " + a.resumen());
         }
     }
 

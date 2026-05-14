@@ -2,6 +2,7 @@ package com.projecte.main;
 
 import com.projecte.marc.Acceso;
 import com.projecte.marc.Usuario;
+import com.projecte.neil.Menu;
 import com.projecte.pablo.Catalogo;
 
 public class ProgramaPrincipal {
@@ -21,13 +22,12 @@ public class ProgramaPrincipal {
 
     public Catalogo pablo(Usuario u) {
         Catalogo c = new Catalogo();
-        c.inicio(u);
         return c;
     }
 
     public void neil(Usuario u, Catalogo c) {
-
-        
+        Menu m = new Menu(u, c);
+        m.inicio();
     }
 
     public Usuario marc() {
