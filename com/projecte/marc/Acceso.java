@@ -61,7 +61,7 @@ public class Acceso {
                 opcion = Integer.parseInt(entrada.nextLine());
 
                 // Comprueba si la opcion es valida
-                if (opcion != 1 || opcion != 2) {
+                if (opcion != 1 && opcion != 2) {
                     throw new DatoInvalidoException("\nError: Valor fuera de rango.\n");
                 }
 
@@ -74,7 +74,6 @@ public class Acceso {
                     case 2 -> {
                         usuario = registro();
                         usuarios.add(usuario);
-                        crearCarpetaUsuario(usuario);
                     }
                     default -> {
                     }
@@ -137,7 +136,6 @@ public class Acceso {
             Usuario admin = new Usuario("Admin", "Admin", "admin@gmail.com", "admin1234", "Valencia", Rol.ROL_ADMIN,
                     LocalDate.of(1990, 5, 10));
             usuarios.add(admin);
-            crearCarpetaUsuario(admin);
         }
     }
 
@@ -171,8 +169,8 @@ public class Acceso {
     public Usuario registro() throws DatoInvalidoException {
         System.out.println("""
                 \n----------------------------------------
-                                 REGISTRO
-                  ----------------------------------------
+                                REGISTRO
+                ----------------------------------------
                   """);
         System.out.print(" - Introduce el nombre del nuevo usuario: ");
         String nombre = entrada.nextLine();
@@ -230,8 +228,8 @@ public class Acceso {
     public Usuario iniciarSesion() throws DatoInvalidoException {
         System.out.println("""
                 \n----------------------------------------
-                              INICIO DE SESION
-                  ----------------------------------------
+                            INICIO DE SESION
+                ----------------------------------------
                   """);
         System.out.print(" - Introduce el nombre completo del usuario: ");
         String nombre = entrada.nextLine();
@@ -281,19 +279,6 @@ public class Acceso {
                         Usuario: %s
                 ========================================\n
                 """.formatted(u.nombreCompleto()));
-    }
-
-    // Crea carpeta personalizada para un usuario.
-    public void crearCarpetaUsuario(Usuario u) {
-        File directori = new File(u.identificador());
-
-        if (directori.mkdir()) {
-            //Carpeta creada correctamente
-        } else {
-            if (!directori.exists()) {
-                System.out.println("\nLa carpeta no se pudo crear.\n");
-            }
-        }
     }
 
 }
