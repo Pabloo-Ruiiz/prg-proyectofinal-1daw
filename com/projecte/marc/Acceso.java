@@ -1,6 +1,8 @@
 package com.projecte.marc;
 
 import com.projecte.marc.Usuario.Rol;
+import com.projecte.utils.DatoInvalidoException;
+
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,18 +27,18 @@ import java.util.Scanner;
 */
 public class Acceso {
 
-    //Scanner para leer datos introducidos por teclado
+    // Scanner para leer datos introducidos por teclado
     private Scanner entrada = new Scanner(System.in);
-    //Lista que almacena todos los usuarios registrados
+    // Lista que almacena todos los usuarios registrados
     private ArrayList<Usuario> usuarios;
 
-    //Constructor
+    // Constructor
     public Acceso() {
         this.usuarios = new ArrayList<Usuario>();
         cargarDatos();
     }
 
-    //Getters y Setters
+    // Getters y Setters
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
@@ -45,8 +47,8 @@ public class Acceso {
         this.usuarios = usuarios;
     }
 
-    //Metodo principal
-    //Muestra el menu de acceso y permite iniciar sesion o registrarse.
+    // Metodo principal
+    // Muestra el menu de acceso y permite iniciar sesion o registrarse.
     public Usuario inicio() {
 
         int opcion = 0;
@@ -58,17 +60,17 @@ public class Acceso {
                 menuAcceso();
                 opcion = Integer.parseInt(entrada.nextLine());
 
-                //Comprueba si la opcion es valida
+                // Comprueba si la opcion es valida
                 if (opcion != 1 || opcion != 2) {
                     throw new DatoInvalidoException("\nError: Valor fuera de rango.\n");
                 }
 
                 switch (opcion) {
-                    //Inicio de sesion
+                    // Inicio de sesion
                     case 1 -> {
                         usuario = iniciarSesion();
                     }
-                    //Registro de usuario
+                    // Registro de usuario
                     case 2 -> {
                         usuario = registro();
                         usuarios.add(usuario);
@@ -88,10 +90,11 @@ public class Acceso {
 
         } while (opcion != 1 && opcion != 2);
         guardarDatos();
+        bienvenida(usuario);
         return usuario;
     }
 
-    //Muestra el menu principal de acceso
+    // Muestra el menu principal de acceso
     public void menuAcceso() {
         System.out.println("""
                 ----------------------------------------
@@ -106,8 +109,8 @@ public class Acceso {
         System.out.print("Elige una opcion: ");
     }
 
-    //Carga los usuarios desde el fichero "usuarios.llista"
-    //Si el fichero no existe, se crea automaticamente un usuario administrador.
+    // Carga los usuarios desde el fichero "usuarios.llista"
+    // Si el fichero no existe, se crea automaticamente un usuario administrador.
     public void cargarDatos() {
 
         File file = new File("usuarios.llista");
@@ -115,7 +118,7 @@ public class Acceso {
         if (file.exists()) {
             try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("usuarios.llista"))) {
 
-                //Lee todos los usuarios del fichero
+                // Lee todos los usuarios del fichero
                 while (true) {
                     Usuario u = (Usuario) in.readObject();
                     usuarios.add(u);
@@ -130,26 +133,28 @@ public class Acceso {
                 e.printStackTrace();
             }
         } else {
-            //Crea un usuario administrador
-            Usuario admin = new Usuario("Admin", "Admin", "admin@gmail.com", "admin1234", "Valencia", Rol.ROL_ADMIN, LocalDate.of(1990, 5, 10));
+            // Crea un usuario administrador
+            Usuario admin = new Usuario("Admin", "Admin", "admin@gmail.com", "admin1234", "Valencia", Rol.ROL_ADMIN,
+                    LocalDate.of(1990, 5, 10));
             usuarios.add(admin);
+            crearCarpetaUsuario(admin);
         }
     }
 
-    //Muestra todos los usuarios registrados
+    // Muestra todos los usuarios registrados
     public void mostrarUsuarios() {
         for (Usuario u : usuarios) {
             System.out.println(" - " + u.toString());
         }
     }
 
-    //Guarda todos los usuarios en el fichero "usuarios.llista".
+    // Guarda todos los usuarios en el fichero "usuarios.llista".
     public void guardarDatos() {
 
         try (ObjectOutputStream out = new ObjectOutputStream(
                 new FileOutputStream("usuarios.llista"));) {
 
-            //Guarda cada usuario en el fichero
+            // Guarda cada usuario en el fichero
             for (Usuario usuario : usuarios) {
                 out.writeObject(usuario);
             }
@@ -160,20 +165,9 @@ public class Acceso {
 
     }
 
-    //Crea carpeta personalizada para un usuario.
-    public void crearCarpetaUsuario(Usuario u) {
-        File directori = new File(u.identificador());
-
-        if (directori.mkdir()) {
-            System.out.println("\nCarpeta creada correctamente.\n");
-        } else {
-            System.out.println("\nLa carpeta ya existe o no se pudo crear.\n");
-        }
-    }
-
-    //Registra un nuevo usuario en el sistema
-    //El metodo devuelve un usuario
-    //@throws DatoInvalidoException Si algún dato introducido no es válido
+    // Registra un nuevo usuario en el sistema
+    // El metodo devuelve un usuario
+    // @throws DatoInvalidoException Si algún dato introducido no es válido
     public Usuario registro() throws DatoInvalidoException {
         System.out.println("""
                 \n----------------------------------------
@@ -187,7 +181,7 @@ public class Acceso {
 
         String nombreCompleto = nombre + " " + apellidos;
 
-        //Combrueba si el usuario ya existe
+        // Combrueba si el usuario ya existe
         Usuario usuario = buscarUsuario(nombreCompleto);
 
         if (usuario != null) {
@@ -198,7 +192,7 @@ public class Acceso {
         System.out.print(" - Introduce el correo de " + nombre + ": ");
         String correo = entrada.nextLine();
 
-        //Validacion del correo electronico
+        // Validacion del correo electronico
         if (!correo.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.(es|com)$")) {
             throw new DatoInvalidoException(
                     "\nError: el correo no es válido. Debe contener '@' y terminar en '.es' o '.com'");
@@ -207,14 +201,14 @@ public class Acceso {
         System.out.print(" - Introduce la poblacion de " + nombre + ": ");
         String poblacion = entrada.nextLine();
 
-        System.out.print(" - Introduce la fecha de nacimiento de " + nombre + ": ");
+        System.out.print(" - Introduce la fecha de nacimiento de " + nombre + " (yyyy/MM/dd): ");
         String fechaNacimiento = entrada.nextLine();
 
-        //Conversion de String a LocalDate
+        // Conversion de String a LocalDate
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDate fecha = LocalDate.parse(fechaNacimiento, formato);
 
-        //Rol por defecto para nuevos usuarios
+        // Rol por defecto para nuevos usuarios
         Rol rol = Rol.ROL_USUARIO;
 
         System.out.print(" - Introduce la contraseña: ");
@@ -223,16 +217,16 @@ public class Acceso {
         System.out.print(" - Confirma la contraseña introducida: ");
         String confirmacion = entrada.nextLine();
 
-        //Comprueba si las contraseñas coinciden
+        // Comprueba si las contraseñas coinciden
         if (!contrasenya.equalsIgnoreCase(confirmacion)) {
             throw new DatoInvalidoException("\nError: La contrasenya introducida no coincide.\n");
         }
         return new Usuario(nombre, apellidos, correo, contrasenya, poblacion, rol, fecha);
     }
 
-    //Permite iniciar sesión a un usuario registrado.
-    //El metodo devuelve un usuario
-    //@throws DatoInvalidoException Si algún dato introducido no es válido
+    // Permite iniciar sesión a un usuario registrado.
+    // El metodo devuelve un usuario
+    // @throws DatoInvalidoException Si algún dato introducido no es válido
     public Usuario iniciarSesion() throws DatoInvalidoException {
         System.out.println("""
                 \n----------------------------------------
@@ -242,7 +236,7 @@ public class Acceso {
         System.out.print(" - Introduce el nombre completo del usuario: ");
         String nombre = entrada.nextLine();
 
-        //Busca el usuario
+        // Busca el usuario
         Usuario usuario = buscarUsuario(nombre);
 
         if (usuario == null) {
@@ -268,8 +262,8 @@ public class Acceso {
         return usuario;
     }
 
-    //Busca un usuario por su nombre completo.
-    //Devuelve Usuario encontrado o null si no existe
+    // Busca un usuario por su nombre completo.
+    // Devuelve Usuario encontrado o null si no existe
     public Usuario buscarUsuario(String nombreCompleto) {
         for (Usuario u : usuarios) {
             if (u.nombreCompleto().equalsIgnoreCase(nombreCompleto)) {
@@ -277,6 +271,29 @@ public class Acceso {
             }
         }
         return null;
+    }
+
+    public void bienvenida(Usuario u) {
+        System.out.println("""
+                \n========================================
+                   BIENVENIDO AL GESTOR DE PELÍCULAS
+                ========================================
+                        Usuario: %s
+                ========================================\n
+                """.formatted(u.nombreCompleto()));
+    }
+
+    // Crea carpeta personalizada para un usuario.
+    public void crearCarpetaUsuario(Usuario u) {
+        File directori = new File(u.identificador());
+
+        if (directori.mkdir()) {
+            //Carpeta creada correctamente
+        } else {
+            if (!directori.exists()) {
+                System.out.println("\nLa carpeta no se pudo crear.\n");
+            }
+        }
     }
 
 }
