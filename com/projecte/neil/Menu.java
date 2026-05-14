@@ -132,7 +132,7 @@ public class Menu {
     // Menú de opciones de ordenación
     public void menuOrdenacion() {
         System.out.println("""
-                         \nMENÚ DE ORDENACIÓN
+                         \n     MENÚ DE ORDENACIÓN
                 ========================================
                   1 - Ordenar por título
                   2 - Ordenar por duracion
