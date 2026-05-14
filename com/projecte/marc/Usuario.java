@@ -210,9 +210,22 @@ public class Usuario implements Serializable {
         return "" + this.nombre.charAt(0) + this.apellidos.charAt(0);
     }
 
+    // Crea carpeta personalizada para un usuario.
+    public void crearCarpetaUsuario() throws IOException {
+        File directori = new File(identificador());
+
+        if (directori.mkdir()) {
+            // Carpeta creada correctamente
+        } else {
+            if (!directori.exists()) {
+                throw new IOException("\nLa carpeta no se pudo crear.\n");
+            }
+        }
+    }
+
     public void cargarDatosParticularesPeliculas() {
 
-        File file = new File(identificador());
+        File file = new File(identificador() + "/peliculas.lista");
 
         if (file.exists()) {
 
@@ -235,13 +248,19 @@ public class Usuario implements Serializable {
             }
 
         } else {
-            throw new DatoInvalidoException("\nNo se ha creado ningun fichero aun.\n");
+            try {
+                crearCarpetaUsuario();
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
+            }
         }
     }
 
     public void cargarDatosParticularesDirectores() {
 
-        File file = new File(identificador());
+        File file = new File(identificador() + "/directores.lista");
 
         if (file.exists()) {
 
@@ -264,13 +283,19 @@ public class Usuario implements Serializable {
             }
 
         } else {
-            throw new DatoInvalidoException("\nNo se ha creado ningun fichero aun.\n");
+            try {
+                crearCarpetaUsuario();
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
+            }
         }
     }
 
     public void cargarDatosParticularesActores() {
 
-        File file = new File(identificador());
+        File file = new File(identificador() + "/actores.lista");
 
         if (file.exists()) {
 
@@ -293,7 +318,13 @@ public class Usuario implements Serializable {
             }
 
         } else {
-            throw new DatoInvalidoException("\nNo se ha creado ningun fichero aun.\n");
+            try {
+                crearCarpetaUsuario();
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -345,22 +376,40 @@ public class Usuario implements Serializable {
 
     }
 
-    public void mostrarDatosParticularesPeliculas() {
+    public boolean mostrarDatosParticularesPeliculas() {
+        if (peliculas.isEmpty()) {
+            System.out.println("\nTu catalogo de peliculas esta vacio.\n");
+            return true;
+        }
+
         for (Pelicula p : peliculas) {
             System.out.println(" - " + p.resumen());
         }
+        return false;
     }
 
-    public void mostrarDatosParticularesDirectores() {
+    public boolean mostrarDatosParticularesDirectores() {
+        if (directores.isEmpty()) {
+            System.out.println("\nTu catalogo de directores esta vacio.\n");
+            return true;
+        }
+
         for (Director d : directores) {
             System.out.println(" - " + d.resumen());
         }
+        return false;
     }
 
-    public void mostrarDatosParticularesActores() {
+    public boolean mostrarDatosParticularesActores() {
+        if (actores.isEmpty()) {
+            System.out.println("\nTu catalogo de actores esta vacio.\n");
+            return true;
+        }
+
         for (Actor a : actores) {
             System.out.println(" - " + a.resumen());
         }
+        return false;
     }
 
     // toString

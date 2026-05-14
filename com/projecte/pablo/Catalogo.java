@@ -28,6 +28,7 @@ public class Catalogo implements Iterable<Pelicula> {
         this.peliculas = new ArrayList<Pelicula>();
         this.directores = new ArrayList<Director>();
         this.actores = new ArrayList<Actor>();
+
         cargarDatosGeneralesPeliculas();
         cargarDatosGeneralesDirectores();
         cargarDatosGeneralesActores();
@@ -64,106 +65,119 @@ public class Catalogo implements Iterable<Pelicula> {
         return peliculas.iterator();
     }
 
-    public void cargarDatosGeneralesPeliculas() {
+    public void crearCarpetaDatos() throws IOException {
+        File directori = new File("datos");
 
-        File file = new File("datos");
-
-        if (!file.exists()) {
-            if (file.mkdir()) {
-                // Carpeta creada correctamente
-                return;
-            } else {
-                if (!file.exists()) {
-                    throw new DatoInvalidoException("\nLa carpeta no se pudo crear.\n");
-                }
+        if (directori.mkdir()) {
+            // Carpeta creada correctamente
+        } else {
+            if (!directori.exists()) {
+                throw new IOException("\nLa carpeta no se pudo crear.\n");
             }
         }
+    }
 
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("datos/peliculas.datos"));) {
+    public void cargarDatosGeneralesPeliculas() {
 
-            while (true) {
-                Pelicula p = (Pelicula) in.readObject();
-                peliculas.add(p);
+        File file = new File("datos/peliculas.datos");
+
+        if (file.exists()) {
+
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("datos/peliculas.datos"));) {
+
+                while (true) {
+                    Pelicula p = (Pelicula) in.readObject();
+                    peliculas.add(p);
+                }
+
+            } catch (EOFException e) {
+                // Fin del fichero
+            } catch (IOException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
             }
 
-        } catch (EOFException e) {
-            // Fin del fichero
-        } catch (IOException e) {
-            System.out.println("\n" + e.getMessage() + "\n");
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            System.out.println("\n" + e.getMessage() + "\n");
-            e.printStackTrace();
+        } else {
+            try {
+                crearCarpetaDatos();
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
+            }
         }
 
     }
 
     public void cargarDatosGeneralesDirectores() {
 
-        File file = new File("datos");
+        File file = new File("datos/directores.datos");
 
-        if (!file.exists()) {
-            if (file.mkdir()) {
-                // Carpeta creada correctamente
-                return;
-            } else {
-                if (!file.exists()) {
-                    throw new DatoInvalidoException("\nLa carpeta no se pudo crear.\n");
+        if (file.exists()) {
+
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("datos/directores.datos"));) {
+
+                while (true) {
+                    Director d = (Director) in.readObject();
+                    directores.add(d);
                 }
+
+            } catch (EOFException e) {
+                // Fin del fichero
+            } catch (IOException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
             }
-        }
 
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("datos/directores.datos"));) {
-
-            while (true) {
-                Director d = (Director) in.readObject();
-                directores.add(d);
+        } else {
+            try {
+                crearCarpetaDatos();
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
             }
-
-        } catch (EOFException e) {
-            // Fin del fichero
-        } catch (IOException e) {
-            System.out.println("\n" + e.getMessage() + "\n");
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            System.out.println("\n" + e.getMessage() + "\n");
-            e.printStackTrace();
         }
 
     }
 
     public void cargarDatosGeneralesActores() {
 
-        File file = new File("datos");
+        File file = new File("datos/actores.datos");
 
-        if (!file.exists()) {
-            if (file.mkdir()) {
-                // Carpeta creada correctamente
-                return;
-            } else {
-                if (!file.exists()) {
-                    throw new DatoInvalidoException("\nLa carpeta no se pudo crear.\n");
+        if (file.exists()) {
+
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("datos/actores.datos"));) {
+
+                while (true) {
+                    Actor a = (Actor) in.readObject();
+                    actores.add(a);
                 }
+
+            } catch (EOFException e) {
+                // Fin del fichero
+            } catch (IOException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                crearCarpetaDatos();
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("\n" + e.getMessage() + "\n");
+                e.printStackTrace();
             }
         }
-
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("datos/actores.datos"));) {
-
-            while (true) {
-                Actor a = (Actor) in.readObject();
-                actores.add(a);
-            }
-
-        } catch (EOFException e) {
-            // Fin del fichero
-        } catch (IOException e) {
-            System.out.println("\n" + e.getMessage() + "\n");
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            System.out.println("\n" + e.getMessage() + "\n");
-            e.printStackTrace();
-        }
-
     }
 
     public void guardarDatosGeneralesPeliculas() {
@@ -171,7 +185,7 @@ public class Catalogo implements Iterable<Pelicula> {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("datos/peliculas.datos"));) {
 
             for (Pelicula p : peliculas) {
-                out.writeObject(p.resumen());
+                out.writeObject(p);
             }
 
         } catch (IOException e) {
@@ -186,7 +200,7 @@ public class Catalogo implements Iterable<Pelicula> {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("datos/directores.datos"));) {
 
             for (Director d : directores) {
-                out.writeObject(d.resumen());
+                out.writeObject(d);
             }
 
         } catch (IOException e) {
@@ -201,7 +215,7 @@ public class Catalogo implements Iterable<Pelicula> {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("datos/actores.datos"));) {
 
             for (Actor a : actores) {
-                out.writeObject(a.resumen());
+                out.writeObject(a);
             }
 
         } catch (IOException e) {
@@ -260,10 +274,10 @@ public class Catalogo implements Iterable<Pelicula> {
 
     // Muestra las películas después de ordenar
     public void mostrarOrdenacionPeliculas(Comparator<Pelicula> comparator) {
-        if(comparator == null) {
+        if (comparator == null) {
             Collections.sort(peliculas); // Usa el compareTo de la clase Pelicula
         } else {
-            Collections.sort(peliculas, comparator); 
+            Collections.sort(peliculas, comparator);
         }
 
         Iterator<Pelicula> it = peliculas.iterator();
@@ -291,6 +305,51 @@ public class Catalogo implements Iterable<Pelicula> {
         for (Actor a : actores) {
             System.out.println(" - " + a.resumen());
         }
+    }
+
+    public void mostrarIdentificadorPeliculas() {
+        for (Pelicula p : peliculas) {
+            System.out.println("  - " + p.getIdentificador());
+        }
+    }
+
+    public Pelicula buscarPelicula(String texto) {
+        for (Pelicula p : peliculas) {
+            if (p.getIdentificador().equalsIgnoreCase(texto)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public void mostrarIdentificadorDirectores() {
+        for (Director d : directores) {
+            System.out.println("  - " + d.getIdentificador());
+        }
+    }
+
+    public Director buscarDirector(String texto) {
+        for (Director d : directores) {
+            if (d.getIdentificador().equalsIgnoreCase(texto)) {
+                return d;
+            }
+        }
+        return null;
+    }
+
+    public void mostrarIdentificadorActores() {
+        for (Actor a : actores) {
+            System.out.println("  - " + a.getIdentificador());
+        }
+    }
+
+    public Actor buscarActor(String texto) {
+        for (Actor a : actores) {
+            if (a.getIdentificador().equalsIgnoreCase(texto)) {
+                return a;
+            }
+        }
+        return null;
     }
 
 }
