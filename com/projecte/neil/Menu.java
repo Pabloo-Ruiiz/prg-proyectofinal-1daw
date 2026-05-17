@@ -154,6 +154,10 @@ public class Menu {
     public void menuOrdenacion() {
         System.out.println("""
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4f444c860c91c4bdc36184d8477cc73836991629
                             MENÚ DE ORDENACIÓN
                 ========================================
                   1 - Ordenar por título
