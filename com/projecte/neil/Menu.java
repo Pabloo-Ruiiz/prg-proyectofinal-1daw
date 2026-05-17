@@ -154,7 +154,6 @@ public class Menu {
     public void menuOrdenacion() {
         System.out.println("""
 
-
                             MENÚ DE ORDENACIÓN
                 ========================================
                   1 - Ordenar por título
@@ -1091,6 +1090,7 @@ public class Menu {
         }
 
         usuario.anyadirPelicula(p);
+        usuario.guardarDatosParticularesPeliculas();
         System.out.println("\nPelicula añadida a la lista particular de " + usuario.nombreCompleto() + ".\n");
     }
 
@@ -1115,6 +1115,7 @@ public class Menu {
         }
 
         usuario.anyadirDirector(d);
+        usuario.guardarDatosParticularesDirectores();
         System.out.println("\nDirector añadido a la lista particular de " + usuario.nombreCompleto() + ".\n");
     }
 
@@ -1139,6 +1140,7 @@ public class Menu {
         }
 
         usuario.anyadirActor(a);
+        usuario.guardarDatosParticularesActores();
         System.out.println("\nActor añadida a la lista particular de " + usuario.nombreCompleto() + ".\n");
     }
 
