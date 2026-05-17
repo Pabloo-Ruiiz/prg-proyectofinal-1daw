@@ -1,7 +1,6 @@
 package com.projecte.pablo;
 
 import com.projecte.pablo.Pelicula.Genero;
-import com.projecte.utils.DatoInvalidoException;
 import com.projecte.utils.FiltrarPeliculas;
 import java.io.EOFException;
 import java.io.File;
@@ -88,6 +87,7 @@ public class Catalogo implements Iterable<Pelicula> {
                 while (true) {
                     Pelicula p = (Pelicula) in.readObject();
                     peliculas.add(p);
+                    Pelicula.contador++;
                 }
 
             } catch (EOFException e) {
@@ -123,6 +123,7 @@ public class Catalogo implements Iterable<Pelicula> {
                 while (true) {
                     Director d = (Director) in.readObject();
                     directores.add(d);
+                    Director.contador++;
                 }
 
             } catch (EOFException e) {
@@ -158,6 +159,7 @@ public class Catalogo implements Iterable<Pelicula> {
                 while (true) {
                     Actor a = (Actor) in.readObject();
                     actores.add(a);
+                    Actor.contador++;
                 }
 
             } catch (EOFException e) {
@@ -237,35 +239,47 @@ public class Catalogo implements Iterable<Pelicula> {
         actores.add(a);
     }
 
+    public void eliminarPelicula(Pelicula p) {
+        peliculas.remove(p);
+    }
+
+    public void eliminarDirector(Director d) {
+        directores.remove(d);
+    }
+
+    public void eliminarActor(Actor a) {
+        actores.remove(a);
+    }
+
     public FiltrarPeliculas getFiltrarPeliculas(Genero genero, int duracion) {
         return new FiltrarPeliculas(peliculas, genero, duracion);
     }
 
-    public boolean existePelicula(String titulo) {
+    public Pelicula existePelicula(String titulo) {
         for (Pelicula p : peliculas) {
             if (p.getTitulo().equalsIgnoreCase(titulo)) {
-                return true;
+                return p;
             }
         }
-        return false;
+        return null;
     }
 
-    public boolean existeDirector(String nombreCompleto) {
+    public Director existeDirector(String nombreCompleto) {
         for (Director d : directores) {
             if (d.nombreCompleto().equalsIgnoreCase(nombreCompleto)) {
-                return true;
+                return d;
             }
         }
-        return false;
+        return null;
     }
 
-    public boolean existeActor(String nombreCompleto) {
+    public Actor existeActor(String nombreCompleto) {
         for (Actor a : actores) {
             if (a.nombreCompleto().equalsIgnoreCase(nombreCompleto)) {
-                return true;
+                return a;
             }
         }
-        return false;
+        return null;
     }
 
     public void mostrarOrdenacionPeliculas() {
@@ -289,28 +303,40 @@ public class Catalogo implements Iterable<Pelicula> {
         System.out.println();
     }
 
-    public void mostrarDatosGeneralesPeliculas() {
-        for (Pelicula p : peliculas) {
-            System.out.println(" - " + p.resumen());
+    public boolean mostrarDatosGeneralesPeliculas() {
+        if (peliculas.isEmpty()) {
+            System.out.println("\nTu catalogo de peliculas esta vacio.\n");
+            return true;
         }
+
+        for (Pelicula p : peliculas) {
+            System.out.println(" - " + p.toString());
+        }
+        return false;
     }
 
-    public void mostrarDatosGeneralesDirectores() {
+    public boolean mostrarDatosGeneralesDirectores() {
+        if (directores.isEmpty()) {
+            System.out.println("\nTu catalogo de directores esta vacio.\n");
+            return true;
+        }
+
         for (Director d : directores) {
-            System.out.println(" - " + d.resumen());
+            System.out.println(" - " + d.toString());
         }
+        return false;
     }
 
-    public void mostrarDatosGeneralesActores() {
+    public boolean mostrarDatosGeneralesActores() {
+        if (actores.isEmpty()) {
+            System.out.println("\nTu catalogo de actores esta vacio.\n");
+            return true;
+        }
+
         for (Actor a : actores) {
-            System.out.println(" - " + a.resumen());
+            System.out.println(" - " + a.toString());
         }
-    }
-
-    public void mostrarIdentificadorPeliculas() {
-        for (Pelicula p : peliculas) {
-            System.out.println("  - " + p.getIdentificador());
-        }
+        return false;
     }
 
     public Pelicula buscarPelicula(String texto) {
@@ -322,12 +348,6 @@ public class Catalogo implements Iterable<Pelicula> {
         return null;
     }
 
-    public void mostrarIdentificadorDirectores() {
-        for (Director d : directores) {
-            System.out.println("  - " + d.getIdentificador());
-        }
-    }
-
     public Director buscarDirector(String texto) {
         for (Director d : directores) {
             if (d.getIdentificador().equalsIgnoreCase(texto)) {
@@ -335,12 +355,6 @@ public class Catalogo implements Iterable<Pelicula> {
             }
         }
         return null;
-    }
-
-    public void mostrarIdentificadorActores() {
-        for (Actor a : actores) {
-            System.out.println("  - " + a.getIdentificador());
-        }
     }
 
     public Actor buscarActor(String texto) {
