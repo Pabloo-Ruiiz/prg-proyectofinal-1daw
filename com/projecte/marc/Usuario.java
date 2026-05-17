@@ -22,9 +22,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
+/**
+ * Representa un usuario del sistema con listas particulares de películas, directores y actores.
+ *
+ * Esta clase es serializable y gestiona la carga y el guardado de las listas particulares en ficheros.
+ */
 public class Usuario implements Serializable {
 
-    // Enum para definir los tipos de usuario
+    /**
+     * Tipos de rol disponibles para un usuario.
+     */
     public enum Rol {
         ROL_USUARIO, ROL_ADMIN;
     }
@@ -46,7 +53,17 @@ public class Usuario implements Serializable {
     private transient ArrayList<Director> directores;
     private transient ArrayList<Actor> actores;
 
-    // Constructor
+    /**
+     * Construye un nuevo usuario con los datos personales y rol indicados.
+     *
+     * @param nombre nombre del usuario.
+     * @param apellidos apellidos del usuario.
+     * @param correo correo electrónico del usuario.
+     * @param contrasenya contraseña del usuario.
+     * @param poblacion población del usuario.
+     * @param rol rol del usuario.
+     * @param fechaNacimiento fecha de nacimiento del usuario.
+     */
     public Usuario(String nombre, String apellidos, String correo, String contrasenya, String poblacion, Rol rol,
             LocalDate fechaNacimiento) {
         // Incrementa el contador y asigna un ID único
@@ -65,20 +82,26 @@ public class Usuario implements Serializable {
         this.peliculas = new ArrayList<Pelicula>();
         this.directores = new ArrayList<Director>();
         this.actores = new ArrayList<Actor>();
-
-        cargarDatosParticularesPeliculas();
-        cargarDatosParticularesDirectores();
-        cargarDatosParticularesActores();
     }
 
+    /**
+     * Restauración personalizada de la serialización del usuario.
+     *
+     * @param in objeto de entrada para lectura.
+     * @throws IOException si se produce un error de E/S.
+     * @throws ClassNotFoundException si no se encuentra una clase durante la lectura.
+     */
     private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+            throws IOException, ClassNotFoundException {
 
         in.defaultReadObject();
 
         this.peliculas = new ArrayList<Pelicula>();
         this.directores = new ArrayList<Director>();
         this.actores = new ArrayList<Actor>();
+        cargarDatosParticularesPeliculas();
+        cargarDatosParticularesDirectores();
+        cargarDatosParticularesActores();
     }
 
     // Getters i Setters
@@ -186,23 +209,39 @@ public class Usuario implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    // Genera un identificador para el usuario
+    /**
+     * Genera un identificador único para el usuario usando su ID y la parte local del correo.
+     *
+     * @return identificador de usuario.
+     */
     public String identificador() {
         String[] partes = correo.split("@");
         return this.id + "-" + partes[0];
     }
 
-    // Devuelve el nombre y los apellidos del usuario
+    /**
+     * Devuelve el nombre completo del usuario.
+     *
+     * @return nombre y apellidos concatenados.
+     */
     public String nombreCompleto() {
         return this.nombre + " " + this.apellidos;
     }
 
-    // Devuelve si el usuario es administrador
+    /**
+     * Comprueba si el usuario tiene rol administrador.
+     *
+     * @return true si el usuario es administrador, false en caso contrario.
+     */
     public boolean esAdmin() {
         return this.rol == Rol.ROL_ADMIN;
     }
 
-    // Devuelve la edad exacta del usuario
+    /**
+     * Calcula la edad actual del usuario en años.
+     *
+     * @return edad del usuario.
+     */
     public int calcularEdad() {
         LocalDate hoy = LocalDate.now();
         int edad = hoy.getYear() - this.fechaNacimiento.getYear();
@@ -217,17 +256,29 @@ public class Usuario implements Serializable {
         return edad;
     }
 
-    // Devuelve el correo en minúsculas
+    /**
+     * Normaliza el correo electrónico a minúsculas.
+     *
+     * @return correo en minúsculas.
+     */
     public String correoNormalizado() {
         return this.correo.toLowerCase();
     }
 
-    // Devuelve las iniciales del usuario
+    /**
+     * Obtiene las iniciales del nombre y apellidos del usuario.
+     *
+     * @return iniciales del usuario.
+     */
     public String obtenerIniciales() {
         return "" + this.nombre.charAt(0) + this.apellidos.charAt(0);
     }
 
-    // Crea carpeta personalizada para un usuario.
+    /**
+     * Crea la carpeta personal del usuario si no existe.
+     *
+     * @throws IOException si la carpeta no se puede crear.
+     */
     public void crearCarpetaUsuario() throws IOException {
         File directori = new File(identificador());
 
@@ -240,6 +291,9 @@ public class Usuario implements Serializable {
         }
     }
 
+    /**
+     * Carga las películas particulares del usuario desde su fichero de lista.
+     */
     public void cargarDatosParticularesPeliculas() {
 
         File file = new File(identificador() + "/peliculas.lista");
@@ -275,6 +329,9 @@ public class Usuario implements Serializable {
         }
     }
 
+    /**
+     * Carga los directores particulares del usuario desde su fichero de lista.
+     */
     public void cargarDatosParticularesDirectores() {
 
         File file = new File(identificador() + "/directores.lista");
@@ -310,6 +367,9 @@ public class Usuario implements Serializable {
         }
     }
 
+    /**
+     * Carga los actores particulares del usuario desde su fichero de lista.
+     */
     public void cargarDatosParticularesActores() {
 
         File file = new File(identificador() + "/actores.lista");
@@ -345,13 +405,16 @@ public class Usuario implements Serializable {
         }
     }
 
+    /**
+     * Guarda las películas particulares del usuario en su fichero de lista.
+     */
     public void guardarDatosParticularesPeliculas() {
 
         try (ObjectOutputStream out = new ObjectOutputStream(
                 new FileOutputStream(identificador() + "/peliculas.lista"));) {
 
             for (Pelicula p : peliculas) {
-                out.writeObject(p.resumen());
+                out.writeObject(p);
             }
 
         } catch (IOException e) {
@@ -361,13 +424,16 @@ public class Usuario implements Serializable {
 
     }
 
+    /**
+     * Guarda los directores particulares del usuario en su fichero de lista.
+     */
     public void guardarDatosParticularesDirectores() {
 
         try (ObjectOutputStream out = new ObjectOutputStream(
                 new FileOutputStream(identificador() + "/directores.lista"));) {
 
             for (Director d : directores) {
-                out.writeObject(d.resumen());
+                out.writeObject(d);
             }
 
         } catch (IOException e) {
@@ -377,13 +443,16 @@ public class Usuario implements Serializable {
 
     }
 
+    /**
+     * Guarda los actores particulares del usuario en su fichero de lista.
+     */
     public void guardarDatosParticularesActores() {
 
         try (ObjectOutputStream out = new ObjectOutputStream(
                 new FileOutputStream(identificador() + "/actores.lista"));) {
 
             for (Actor a : actores) {
-                out.writeObject(a.resumen());
+                out.writeObject(a);
             }
 
         } catch (IOException e) {
@@ -393,6 +462,11 @@ public class Usuario implements Serializable {
 
     }
 
+    /**
+     * Muestra la lista particular de películas del usuario.
+     *
+     * @return true si la lista está vacía, false en caso contrario.
+     */
     public boolean mostrarDatosParticularesPeliculas() {
         if (peliculas.isEmpty()) {
             System.out.println("\nTu catalogo de peliculas esta vacio.\n");
@@ -405,6 +479,11 @@ public class Usuario implements Serializable {
         return false;
     }
 
+    /**
+     * Muestra la lista particular de directores del usuario.
+     *
+     * @return true si la lista está vacía, false en caso contrario.
+     */
     public boolean mostrarDatosParticularesDirectores() {
         if (directores.isEmpty()) {
             System.out.println("\nTu catalogo de directores esta vacio.\n");
@@ -417,6 +496,11 @@ public class Usuario implements Serializable {
         return false;
     }
 
+    /**
+     * Muestra la lista particular de actores del usuario.
+     *
+     * @return true si la lista está vacía, false en caso contrario.
+     */
     public boolean mostrarDatosParticularesActores() {
         if (actores.isEmpty()) {
             System.out.println("\nTu catalogo de actores esta vacio.\n");
@@ -429,6 +513,12 @@ public class Usuario implements Serializable {
         return false;
     }
 
+    /**
+     * Busca una película en la lista particular del usuario.
+     *
+     * @param texto identificador de la película.
+     * @return película encontrada o null si no existe.
+     */
     public Pelicula buscarPelicula(String texto) {
         for (Pelicula p : peliculas) {
             if (p.getIdentificador().equalsIgnoreCase(texto)) {
@@ -438,6 +528,12 @@ public class Usuario implements Serializable {
         return null;
     }
 
+    /**
+     * Busca un director en la lista particular del usuario.
+     *
+     * @param texto identificador del director.
+     * @return director encontrado o null si no existe.
+     */
     public Director buscarDirector(String texto) {
         for (Director d : directores) {
             if (d.getIdentificador().equalsIgnoreCase(texto)) {
@@ -447,6 +543,12 @@ public class Usuario implements Serializable {
         return null;
     }
 
+    /**
+     * Busca un actor en la lista particular del usuario.
+     *
+     * @param texto identificador del actor.
+     * @return actor encontrado o null si no existe.
+     */
     public Actor buscarActor(String texto) {
         for (Actor a : actores) {
             if (a.getIdentificador().equalsIgnoreCase(texto)) {
@@ -456,60 +558,108 @@ public class Usuario implements Serializable {
         return null;
     }
 
+    /**
+     * Elimina una película de la lista particular del usuario.
+     *
+     * @param p película a eliminar.
+     */
     public void eliminarPelicula(Pelicula p) {
         peliculas.remove(p);
     }
 
+    /**
+     * Elimina un director de la lista particular del usuario.
+     *
+     * @param d director a eliminar.
+     */
     public void eliminarDirector(Director d) {
         directores.remove(d);
     }
 
+    /**
+     * Elimina un actor de la lista particular del usuario.
+     *
+     * @param a actor a eliminar.
+     */
     public void eliminarActor(Actor a) {
         actores.remove(a);
     }
 
+    /**
+     * Añade una película a la lista particular del usuario.
+     *
+     * @param p película a añadir.
+     */
     public void anyadirPelicula(Pelicula p) {
         peliculas.add(p);
     }
 
+    /**
+     * Añade un director a la lista particular del usuario.
+     *
+     * @param d director a añadir.
+     */
     public void anyadirDirector(Director d) {
         directores.add(d);
     }
 
+    /**
+     * Añade un actor a la lista particular del usuario.
+     *
+     * @param a actor a añadir.
+     */
     public void anyadirActor(Actor a) {
         actores.add(a);
     }
 
+    /**
+     * Elimina de las listas particulares los elementos que ya no existen en el catálogo general.
+     *
+     * @param c catálogo general de referencia.
+     */
     public void actualizarListas(Catalogo c) {
         if (peliculas != null) {
-            for (Pelicula p : peliculas) {
+            Iterator<Pelicula> it = peliculas.iterator();
+            while (it.hasNext()) {
+                Pelicula p = it.next();
                 if (c.existePelicula(p.getTitulo()) == null) {
-                    peliculas.remove(p);
+                    it.remove();
                 }
             }
         }
         if (directores != null) {
-            for (Director d : directores) {
+            Iterator<Director> it = directores.iterator();
+            while (it.hasNext()) {
+                Director d = it.next();
                 if (c.existeDirector(d.nombreCompleto()) == null) {
-                    directores.remove(d);
+                    it.remove();
                 }
             }
         }
         if (actores != null) {
-            for (Actor a : actores) {
-                if (c.existeDirector(a.nombreCompleto()) == null) {
-                    directores.remove(a);
+            Iterator<Actor> it = actores.iterator();
+            while (it.hasNext()) {
+                Actor a = it.next();
+                if (c.existeActor(a.nombreCompleto()) == null) {
+                    it.remove();
                 }
             }
         }
 
     }
 
+    /**
+     * Muestra la lista de películas ordenada usando el orden natural de Pelicula.
+     */
     public void mostrarOrdenacionPeliculas() {
         this.mostrarOrdenacionPeliculas(null);
     }
 
-    // Muestra las películas después de ordenar
+    /**
+     * Muestra la lista de películas ordenada con el comparador proporcionado.
+     *
+     * @param comparator comparador para ordenar las películas; si es null usa el orden natural.
+     */
     public void mostrarOrdenacionPeliculas(Comparator<Pelicula> comparator) {
         if (comparator == null) {
             Collections.sort(peliculas); // Usa el compareTo de la clase Pelicula
@@ -526,6 +676,13 @@ public class Usuario implements Serializable {
         System.out.println();
     }
 
+    /**
+     * Crea un filtro para la lista particular de películas del usuario.
+     *
+     * @param genero genero de búsqueda.
+     * @param duracion duración máxima en minutos.
+     * @return filtro de películas preparado.
+     */
     public FiltrarPeliculas getFiltrarPeliculas(Genero genero, int duracion) {
         return new FiltrarPeliculas(peliculas, genero, duracion);
     }

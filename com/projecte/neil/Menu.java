@@ -12,6 +12,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+/**
+ * Controla la interacción por consola con el usuario.
+ *
+ * Gestiona el menú principal, las opciones de catálogo general, la construcción de las listas particulares
+ * y las operaciones de administración de elementos.
+ */
 public class Menu {
 
     // Scanner para leer datos introducidos por teclado
@@ -20,6 +26,12 @@ public class Menu {
     private Usuario usuario;
     private Catalogo catalogo;
 
+    /**
+     * Construye el menú de la aplicación con el usuario actual y el catálogo general.
+     *
+     * @param usuario usuario conectado.
+     * @param catalogo catálogo general disponible.
+     */
     public Menu(Usuario usuario, Catalogo catalogo) {
         this.usuario = usuario;
         this.catalogo = catalogo;
@@ -50,8 +62,9 @@ public class Menu {
         this.catalogo = catalogo;
     }
 
-    // Método principal del menu.
-    // Controla todo el menú y las opciones disponibles.
+    /**
+     * Ejecuta el bucle principal del menú y procesa las opciones seleccionadas por el usuario.
+     */
     public void inicio() {
 
         int opcion = 0;
@@ -82,7 +95,6 @@ public class Menu {
                         break;
                     case 4:
                         eliminarElementos();
-                        usuario.actualizarListas(catalogo);
                         break;
                     case 5:
                         consultarListasParticulares();
@@ -104,7 +116,9 @@ public class Menu {
 
     }
 
-    // Menú principal del programa
+    /**
+     * Muestra el menú principal con las opciones disponibles.
+     */
     public void menuPrincipal() {
         System.out.println("""
                              MENÚ PRINCIPAL
@@ -120,6 +134,9 @@ public class Menu {
         System.out.print("Elige una opcion: ");
     }
 
+    /**
+     * Muestra el submenú para seleccionar el tipo de elemento a consultar o gestionar.
+     */
     public void menuSeleccionElementos() {
         System.out.println("""
 
@@ -135,6 +152,9 @@ public class Menu {
         System.out.print("Elige una opcion: ");
     }
 
+    /**
+     * Muestra el submenú para añadir nuevos elementos al catálogo general.
+     */
     public void menuanyadirElementos() {
         System.out.println("""
 
@@ -150,7 +170,9 @@ public class Menu {
         System.out.print("Elige una opcion: ");
     }
 
-    // Menú de opciones de ordenación
+    /**
+     * Muestra el submenú de ordenación de listas.
+     */
     public void menuOrdenacion() {
         System.out.println("""
 
@@ -167,6 +189,9 @@ public class Menu {
         System.out.print("Elige una opción: ");
     }
 
+    /**
+     * Muestra el submenú para elegir opciones de visualización de detalles.
+     */
     public void submenuVisualizaciones() {
         System.out.println("""
 
@@ -180,6 +205,9 @@ public class Menu {
         System.out.print("Elige una opción: ");
     }
 
+    /**
+     * Muestra el submenú para eliminar elementos del catálogo o de las listas particulares.
+     */
     public void menuEliminarElementos() {
 
         System.out.println("""
@@ -195,6 +223,9 @@ public class Menu {
         System.out.print("Elige una opción: ");
     }
 
+    /**
+     * Muestra el submenú para seleccionar el tipo de elemento a eliminar.
+     */
     public void menuSeleccionEliminarElemento() {
 
         System.out.println("""
@@ -211,6 +242,11 @@ public class Menu {
         System.out.print("Elige una opción: ");
     }
 
+    /**
+     * Solicita los datos de una nueva película y la añade al catálogo.
+     *
+     * Valida que no exista una película con el mismo título antes de añadirla.
+     */
     public void altaPelicula() {
 
         try {
@@ -247,6 +283,11 @@ public class Menu {
 
     }
 
+    /**
+     * Solicita los datos de un nuevo director y lo añade al catálogo.
+     *
+     * Valida que no exista un director con el mismo nombre completo antes de añadirlo.
+     */
     public void altaDirector() {
 
         try {
@@ -283,6 +324,11 @@ public class Menu {
 
     }
 
+    /**
+     * Solicita los datos de un nuevo actor y lo añade al catálogo.
+     *
+     * Valida que no exista un actor con el mismo nombre completo antes de añadirlo.
+     */
     public void altaActor() {
 
         try {
@@ -319,6 +365,11 @@ public class Menu {
 
     }
 
+    /**
+     * Controla el flujo de añadir elementos al catálogo general.
+     *
+     * Solo los administradores pueden acceder a esta opción.
+     */
     public void anyadirElemento() {
 
         int opcionSubmenu = 0;
@@ -368,6 +419,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Permite consultar los catálogos generales de películas, directores y actores.
+     */
     public void consultarCatalogosGenerales() {
 
         int opcionSubmenu = 0;
@@ -410,6 +464,11 @@ public class Menu {
 
     }
 
+    /**
+     * Muestra la lista general de películas y permite ver los detalles de una selección.
+     *
+     * @param opcionSubmenu opción de visualización seleccionada.
+     */
     public void listaGeneralPeliculas(int opcionSubmenu) {
         System.out.println("\n----- LISTA GENERAL PELICULAS [Usuario = "
                 + usuario.identificador() + "] -----");
@@ -465,6 +524,11 @@ public class Menu {
 
     }
 
+    /**
+     * Muestra la lista general de directores y permite ver los detalles de uno.
+     *
+     * @param opcionSubmenu opción de visualización seleccionada.
+     */
     public void listaGeneralDirectores(int opcionSubmenu) {
         System.out.println("\n----- LISTA GENERAL DIRECTORES [Usuario = "
                 + usuario.identificador() + "] -----");
@@ -521,6 +585,11 @@ public class Menu {
 
     }
 
+    /**
+     * Muestra la lista general de actores y permite ver los detalles de uno.
+     *
+     * @param opcionSubmenu opción de visualización seleccionada.
+     */
     public void listaGeneralActores(int opcionSubmenu) {
         System.out.println("\n----- LISTA GENERAL ACTORES [Usuario = "
                 + usuario.identificador() + "] -----");
@@ -571,6 +640,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Muestra y permite consultar las listas particulares del usuario.
+     */
     public void consultarListasParticulares() {
 
         int opcionSubmenu = 0;
@@ -624,6 +696,9 @@ public class Menu {
         } while (opcionSubmenu != 0);
     }
 
+    /**
+     * Gestiona la ordenación de las listas particulares del usuario.
+     */
     public void ordenacionListasParticulares() {
 
         int opcionSubmenu = 0;
@@ -702,6 +777,9 @@ public class Menu {
         } while (opcionSubmenu < 1 || opcionSubmenu > 4);
     }
 
+    /**
+     * Gestiona la ordenación de las listas generales del catálogo.
+     */
     public void ordenacionListasGenerales() {
         int opcionSubmenu = 0;
 
@@ -779,6 +857,9 @@ public class Menu {
         } while (opcionSubmenu < 1 || opcionSubmenu > 4);
     }
 
+    /**
+     * Gestiona el submenú para eliminar elementos del catálogo o de las listas particulares.
+     */
     public void eliminarElementos() {
 
         int opcionSubmenu = 0;
@@ -818,6 +899,9 @@ public class Menu {
 
     }
 
+    /**
+     * Permite eliminar elementos de las listas particulares del usuario.
+     */
     public void eliminarListaParticular() {
 
         int opcionSubmenu = 0;
@@ -856,6 +940,7 @@ public class Menu {
 
                         usuario.eliminarPelicula(p);
                         System.out.println("\nPelicula eliminada del catalogo correctamente.\n");
+                        usuario.guardarDatosParticularesPeliculas();
                         break;
                     case 2:
                         System.out.println("\n----- LISTA PARTICULAR DIRECTORES [Usuario = "
@@ -866,7 +951,7 @@ public class Menu {
                             return;
                         }
 
-                        System.out.print("¿Que director deseas eliminar (Escoge el identificador)?");
+                        System.out.print("\n¿Que director deseas eliminar (Escoge el identificador)? ");
                         String ide = entrada.nextLine();
 
                         Director d = usuario.buscarDirector(ide);
@@ -879,6 +964,7 @@ public class Menu {
 
                         usuario.eliminarDirector(d);
                         System.out.println("\nDirector eliminada del catalogo correctamente.\n");
+                        usuario.guardarDatosParticularesDirectores();
                         break;
                     case 3:
                         System.out.println("\n----- LISTA PARTICULAR ACTORES [Usuario = "
@@ -889,7 +975,7 @@ public class Menu {
                             return;
                         }
 
-                        System.out.print("¿Que actor deseas eliminar (Escoge el identificador)?");
+                        System.out.print("\n¿Que actor deseas eliminar (Escoge el identificador)? ");
                         String ids = entrada.nextLine();
 
                         Actor a = usuario.buscarActor(ids);
@@ -902,6 +988,7 @@ public class Menu {
 
                         usuario.eliminarActor(a);
                         System.out.println("\nActor eliminada del catalogo correctamente.\n");
+                        usuario.guardarDatosParticularesActores();
                         break;
                     case 0:
                         System.out.println("\nVolviendo al menu anterior...\n");
@@ -920,6 +1007,9 @@ public class Menu {
 
     }
 
+    /**
+     * Permite eliminar elementos del catálogo general (solo administradores).
+     */
     public void eliminarListaGeneral() {
 
         int opcionSubmenu = 0;
@@ -960,6 +1050,7 @@ public class Menu {
 
                             catalogo.eliminarPelicula(p);
                             System.out.println("\nPelicula eliminada del catalogo correctamente.\n");
+                            catalogo.guardarDatosGeneralesPeliculas();
                             break;
                         case 2:
                             System.out.println("\n----- LISTA GENERAL DIRECTORES [Usuario = "
@@ -983,6 +1074,7 @@ public class Menu {
 
                             catalogo.eliminarDirector(d);
                             System.out.println("\nDirector eliminada del catalogo correctamente.\n");
+                            catalogo.guardarDatosGeneralesDirectores();
                             break;
                         case 3:
                             System.out.println("\n----- LISTA GENERAL ACTORES [Usuario = "
@@ -1006,6 +1098,7 @@ public class Menu {
 
                             catalogo.eliminarActor(a);
                             System.out.println("\nActor eliminada del catalogo correctamente.\n");
+                            catalogo.guardarDatosGeneralesActores();
                             break;
                         case 0:
                             System.out.println("\nVolviendo al menu anterior...\n");
@@ -1029,6 +1122,9 @@ public class Menu {
 
     }
 
+    /**
+     * Permite al usuario construir sus propias listas particulares de películas, directores o actores.
+     */
     public void construirListaParticular() {
         int opcionSubmenu = 0;
 
@@ -1069,6 +1165,9 @@ public class Menu {
         } while (opcionSubmenu != 0);
     }
 
+    /**
+     * Añade una película de la lista general a la lista particular del usuario.
+     */
     public void listaParticularPelicula() {
         System.out.println("\n----- LISTA GENERAL PELICULAS [Usuario = "
                 + usuario.identificador() + "] -----");
@@ -1094,6 +1193,9 @@ public class Menu {
         System.out.println("\nPelicula añadida a la lista particular de " + usuario.nombreCompleto() + ".\n");
     }
 
+    /**
+     * Añade un director de la lista general a la lista particular del usuario.
+     */
     public void listaParticularDirector() {
         System.out.println("\n----- LISTA GENERAL DIRECTORES [Usuario = "
                 + usuario.identificador() + "] -----");
@@ -1119,6 +1221,9 @@ public class Menu {
         System.out.println("\nDirector añadido a la lista particular de " + usuario.nombreCompleto() + ".\n");
     }
 
+    /**
+     * Añade un actor de la lista general a la lista particular del usuario.
+     */
     public void listaParticularActor() {
         System.out.println("\n----- LISTA GENERAL ACTORES [Usuario = "
                 + usuario.identificador() + "] -----");

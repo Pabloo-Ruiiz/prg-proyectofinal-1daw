@@ -4,7 +4,9 @@ import com.projecte.pablo.Pelicula;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-// Iterator personalizado que filtra películas por género y duración.
+/**
+ * Iterador personalizado para recorrer películas que cumplen un filtro de género y duración.
+ */
 public class FiltrarPeliculas implements Iterator<Pelicula> {
 
     private int posicion = 0; // Posición actual del recorrido
@@ -12,7 +14,14 @@ public class FiltrarPeliculas implements Iterator<Pelicula> {
     private Pelicula.Genero genero;
     private ArrayList<Pelicula> peliculas;
 
-    // Constructor del iterator
+    /**
+     * Construye un iterador que solo devolverá películas del género indicado
+     * y con duración menor o igual a la especificada.
+     *
+     * @param peliculas lista de películas a filtrar.
+     * @param genero género que deben cumplir las películas.
+     * @param duracion duración máxima en minutos.
+     */
     public FiltrarPeliculas(ArrayList<Pelicula> peliculas, Pelicula.Genero genero, int duracion) {
         this.peliculas = peliculas;
         this.genero = genero;
@@ -36,7 +45,11 @@ public class FiltrarPeliculas implements Iterator<Pelicula> {
         this.peliculas = peliculas;
     }
 
-    // Comprueba si existe otra película válida
+    /**
+     * Determina si existe una siguiente película que cumpla el filtro.
+     *
+     * @return true si hay más películas válidas, false en caso contrario.
+     */
     @Override
     public boolean hasNext() {
         // Avanza mientras la película no cumpla el filtro
@@ -48,7 +61,11 @@ public class FiltrarPeliculas implements Iterator<Pelicula> {
         return posicion < peliculas.size();
     }
 
-    // Devuelve la siguiente película válida
+    /**
+     * Devuelve la siguiente película válida del filtro.
+     *
+     * @return siguiente película que cumple el filtro.
+     */
     @Override
     public Pelicula next() {
         return peliculas.get(posicion++);

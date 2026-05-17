@@ -1,0 +1,24 @@
+# Datos de usuarios y catálogos
+usuarios.llista
+datos/
+1-admin/
+2-pablo.ruiz/
+
+# Archivos compilados y build
+*.class
+*.jar
+*.war
+target/
+bin/
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

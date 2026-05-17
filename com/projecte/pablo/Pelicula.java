@@ -4,6 +4,11 @@ import com.projecte.utils.DatoInvalidoException;
 import com.projecte.utils.Gestionable;
 import java.io.Serializable;
 
+/**
+ * Representa una película con título, año, duración y género.
+ *
+ * Esta clase es serializable para poder guardarla en fichero y se puede ordenar en catálogos.
+ */
 public class Pelicula implements Serializable, Comparable<Pelicula>, Gestionable {
 
     // Enum con los diferentes Generos de peliculas
@@ -21,7 +26,14 @@ public class Pelicula implements Serializable, Comparable<Pelicula>, Gestionable
     private int duracion;
     private Genero genero;
 
-    // Constructor
+    /**
+     * Crea una nueva película con los datos proporcionados.
+     *
+     * @param titulo título de la película.
+     * @param anyo año de estreno.
+     * @param duracion duración en minutos.
+     * @param genero género de la película.
+     */
     public Pelicula(String titulo, int anyo, int duracion, Genero genero) {
         contador++;
         this.id = contador;

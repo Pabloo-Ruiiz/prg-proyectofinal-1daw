@@ -1,213 +1,89 @@
-# Proyecto Final · Programación · 1º DAW
+# Proyecto Final · Gestión de Películas (1º DAW)
 
-Aplicación Java para la gestión de películas, actores y directores.  
-Proyecto final del módulo de Programación de 1º DAW.
-
----
-
-# Descripción del Proyecto
-
-La aplicación permitirá gestionar:
-
-- Películas
-- Actores
-- Directores
-- Usuarios
-- Listas generales y personales
-
-El sistema funcionará mediante menús por consola y almacenará la información en ficheros para mantener los datos entre ejecuciones.
+Resumen del proyecto: aplicación de consola en Java para gestionar un pequeño catálogo de películas, actores y directores, con soporte de usuarios y listas personales.
 
 ---
 
-# Trabajo en Equipo
+## Descripción
 
-El proyecto será desarrollado en grupos de 3 personas utilizando un repositorio compartido en GitHub.
+La aplicación permite:
 
-Cada integrante será responsable de una parte concreta del proyecto.
+- Gestionar catálogos de películas, actores y directores.
+- Registrar e iniciar sesión con usuarios (roles: usuario y administrador).
+- Crear y mantener listas personales basadas en la lista general.
+- Persistir datos en ficheros para mantener estado entre ejecuciones.
 
----
-
-# Objetivos del Proyecto
-
-- Aplicar programación orientada a objetos
-- Practicar trabajo en equipo
-- Utilizar Git y GitHub
-- Gestionar persistencia de datos
-- Diseñar aplicaciones Java modulares
+La interfaz es por consola (menús) y los datos se almacenan en ficheros binarios/serializados en el directorio del proyecto.
 
 ---
 
-# Estructura de Clases
+## Organización del Trabajo
 
-## Clases Principales
-
-### Actor
-
-Clase encargada de representar a un actor.
+Trabajo en equipo con control de versiones en GitHub. Cada miembro puede encargarse de módulos separados (modelo, persistencia, interfaz y utilidades).
 
 ---
 
-### Director
+## Objetivos
 
-Clase encargada de representar a un director.
-
----
-
-### Película
-
-#### Atributos necesarios
-
-- `titulo`
-- `anyo`
-- `duracion`
+- Aplicar conceptos de programación orientada a objetos.
+- Diseñar clases y paquetes coherentes y reutilizables.
+- Gestionar persistencia sencilla mediante serialización de objetos.
+- Practicar colaboración con Git/GitHub.
 
 ---
 
-### Usuario (Clase Abstracta)
+## Estructura del Código
 
-#### Atributos necesarios
+Paquetes principales:
 
-- `nombre`
-- `apellidos`
-- `correo`
-- `poblacion`
-- `fechaNacimiento`
-- `contrasenya`
+- `com.projecte.main` — Punto de entrada (`ProgramaPrincipal`).
+- `com.projecte.marc` — Gestión de acceso, usuarios y lógica de negocio relacionada con usuarios.
+- `com.projecte.pablo` — Modelos de dominio: `Pelicula`, `Actor`, `Director`, `Catalogo`.
+- `com.projecte.utils` — Utilidades compartidas (excepciones, filtros, comparadores, interfaces).
 
-#### Tipos de usuario
+Ficheros de datos y carpetas relevantes:
 
-- `UsuarioNormal`
-- `UsuarioAdministrador`
-
----
-
-# Sistema de Listas
-
-## Lista General
-
-Lista compartida por todos los usuarios.
-
-### Funcionalidades
-
-- Cualquier usuario puede añadir elementos.
-- Solo los administradores pueden eliminar elementos.
+- `usuarios.llista` — fichero principal con usuarios serializados.
+- `datos/` — listados y datos iniciales (`peliculas.datos`, `actores.datos`, `directores.datos`).
+- Carpetas por usuario (`<id>-<correo>/`) que contienen `peliculas.lista`, `actores.lista`, `directores.lista`.
 
 ---
 
-## Lista Personal
+## Funcionamiento básico
 
-Cada usuario tendrá sus propias listas personales.
+Al ejecutar la aplicación se muestra un menú de acceso con dos opciones: iniciar sesión o registrarse. Una vez autenticado, el usuario accede a un menú principal donde puede consultar catálogos, añadir elementos (según permisos), y gestionar sus listas personales.
 
-### Características
+Control de permisos:
 
-- Se construyen a partir de elementos de la lista general.
-- El usuario puede:
-  - añadir elementos
-  - eliminar elementos
-  - ordenar listas según distintos criterios
+- Usuarios normales: consultar y añadir elementos a sus listas personales.
+- Administradores: además pueden eliminar elementos del catálogo general y gestionar usuarios.
 
 ---
 
-# Inicio de la Aplicación
+## Listas
 
-Al iniciar el programa aparecerán dos opciones:
+### Lista general
 
-- Login
-- Registro
+Catálogo compartido con todos los elementos disponibles. Se modifica por usuarios con permisos de administrador.
 
----
+### Listas personales
 
-## Login
-
-Se solicitarán los siguientes datos:
-
-- Nombre de usuario
-- Contraseña
-- Confirmación de contraseña
-
-### Funcionamiento
-
-- Si los datos son correctos:
-  - se accederá a la aplicación.
-- Si los datos son incorrectos:
-  - se mostrarán alertas de error.
+Cada usuario puede mantener listas derivadas de la lista general; las listas se guardan en ficheros personales para persistencia.
 
 ---
 
-## Registro
+## Tecnologías
 
-Para crear un nuevo usuario se solicitarán todos los atributos necesarios:
-
-- Nombre
-- Apellidos
-- Correo
-- Población
-- Fecha de nacimiento
-- Contraseña
-- Confirmación de contraseña
-
-Una vez completado el proceso, el usuario quedará registrado en el sistema.
+- Java 8+ (se usan paquetes y serialización)
+- Git / GitHub
 
 ---
 
-# Gestión de Usuarios Administradores
+## Notas importantes
 
-Se plantean dos posibles enfoques:
-
-## Opción 1
-
-Permitir elegir el tipo de usuario durante el registro:
-
-- Usuario normal
-- Usuario administrador
-
----
-
-## Opción 2
-
-Crear un administrador por defecto en el sistema.
-
-### Funcionamiento
-
-- Todos los nuevos usuarios serán normales.
-- Los administradores podrán ascender usuarios normales a administradores.
-
----
-
-# Menú Principal
-
-Una vez dentro de la aplicación, el usuario podrá:
-
-- Consultar catálogos generales:
-  - películas
-  - actores
-  - directores
-
-- Añadir nuevos elementos:
-  - películas
-  - actores
-  - directores
-
-- Construir listas personales
-
-- Eliminar elementos de listas personales
-
-- Consultar y ordenar listas personales según distintos criterios:
-  - título
-  - año
-  - duración
-
-- Ver información detallada de cada elemento
-
----
-
-# Tecnologías Utilizadas
-
-- Java
-- Programación orientada a objetos
-- Git
-- GitHub
-- Persistencia mediante ficheros
+- Los datos se guardan en ficheros binarios; respeta la estructura de paquetes al recompilar.
+- Si se producen cambios en las clases serializables, los ficheros existentes pueden volverse incompatibles.
+- Para pruebas rápidas puedes eliminar/renombrar `usuarios.llista` para forzar la creación de un administrador por defecto.
 
 ---
 

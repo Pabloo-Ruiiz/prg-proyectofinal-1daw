@@ -5,6 +5,11 @@ import com.projecte.utils.Gestionable;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+ * Representa a un actor con sus datos personales.
+ *
+ * Esta clase es serializable para poder guardarla en fichero y forma parte del catálogo.
+ */
 public class Actor implements Serializable, Gestionable {
 
     // Contador estático para generar IDs automáticos
@@ -17,7 +22,14 @@ public class Actor implements Serializable, Gestionable {
     private LocalDate fechaNacimiento;
     private String nacionalidad;
 
-    // Constructor
+    /**
+     * Crea un nuevo actor con los datos proporcionados.
+     *
+     * @param nombre nombre del actor.
+     * @param apellidos apellidos del actor.
+     * @param fechaNacimiento fecha de nacimiento del actor.
+     * @param nacionalidad nacionalidad del actor.
+     */
     public Actor(String nombre, String apellidos, LocalDate fechaNacimiento, String nacionalidad) {
         contador++;
         this.id = contador;
