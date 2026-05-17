@@ -1,9 +1,13 @@
 package com.projecte.marc;
 
 import com.projecte.pablo.Actor;
+import com.projecte.pablo.Catalogo;
 import com.projecte.pablo.Director;
 import com.projecte.pablo.Pelicula;
+import com.projecte.pablo.Pelicula.Genero;
 import com.projecte.utils.DatoInvalidoException;
+import com.projecte.utils.FiltrarPeliculas;
+
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +18,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 
 public class Usuario implements Serializable {
 
@@ -23,7 +30,7 @@ public class Usuario implements Serializable {
     }
 
     // Contador estático para generar IDs automáticos
-    private static int contador = 0;
+    protected static int contador = 0;
 
     // Atributos
     private int id;
@@ -62,6 +69,16 @@ public class Usuario implements Serializable {
         cargarDatosParticularesPeliculas();
         cargarDatosParticularesDirectores();
         cargarDatosParticularesActores();
+    }
+
+    private void readObject(ObjectInputStream in)
+        throws IOException, ClassNotFoundException {
+
+        in.defaultReadObject();
+
+        this.peliculas = new ArrayList<Pelicula>();
+        this.directores = new ArrayList<Director>();
+        this.actores = new ArrayList<Actor>();
     }
 
     // Getters i Setters
@@ -383,7 +400,7 @@ public class Usuario implements Serializable {
         }
 
         for (Pelicula p : peliculas) {
-            System.out.println(" - " + p.resumen());
+            System.out.println(" - " + p.toString());
         }
         return false;
     }
@@ -395,7 +412,7 @@ public class Usuario implements Serializable {
         }
 
         for (Director d : directores) {
-            System.out.println(" - " + d.resumen());
+            System.out.println(" - " + d.toString());
         }
         return false;
     }
@@ -407,9 +424,110 @@ public class Usuario implements Serializable {
         }
 
         for (Actor a : actores) {
-            System.out.println(" - " + a.resumen());
+            System.out.println(" - " + a.toString());
         }
         return false;
+    }
+
+    public Pelicula buscarPelicula(String texto) {
+        for (Pelicula p : peliculas) {
+            if (p.getIdentificador().equalsIgnoreCase(texto)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public Director buscarDirector(String texto) {
+        for (Director d : directores) {
+            if (d.getIdentificador().equalsIgnoreCase(texto)) {
+                return d;
+            }
+        }
+        return null;
+    }
+
+    public Actor buscarActor(String texto) {
+        for (Actor a : actores) {
+            if (a.getIdentificador().equalsIgnoreCase(texto)) {
+                return a;
+            }
+        }
+        return null;
+    }
+
+    public void eliminarPelicula(Pelicula p) {
+        peliculas.remove(p);
+    }
+
+    public void eliminarDirector(Director d) {
+        directores.remove(d);
+    }
+
+    public void eliminarActor(Actor a) {
+        actores.remove(a);
+    }
+
+    public void anyadirPelicula(Pelicula p) {
+        peliculas.add(p);
+    }
+
+    public void anyadirDirector(Director d) {
+        directores.add(d);
+    }
+
+    public void anyadirActor(Actor a) {
+        actores.add(a);
+    }
+
+    public void actualizarListas(Catalogo c) {
+        if (peliculas != null) {
+            for (Pelicula p : peliculas) {
+                if (c.existePelicula(p.getTitulo()) == null) {
+                    peliculas.remove(p);
+                }
+            }
+        }
+        if (directores != null) {
+            for (Director d : directores) {
+                if (c.existeDirector(d.nombreCompleto()) == null) {
+                    directores.remove(d);
+                }
+            }
+        }
+        if (actores != null) {
+            for (Actor a : actores) {
+                if (c.existeDirector(a.nombreCompleto()) == null) {
+                    directores.remove(a);
+                }
+            }
+        }
+
+    }
+
+    public void mostrarOrdenacionPeliculas() {
+        this.mostrarOrdenacionPeliculas(null);
+    }
+
+    // Muestra las películas después de ordenar
+    public void mostrarOrdenacionPeliculas(Comparator<Pelicula> comparator) {
+        if (comparator == null) {
+            Collections.sort(peliculas); // Usa el compareTo de la clase Pelicula
+        } else {
+            Collections.sort(peliculas, comparator);
+        }
+
+        Iterator<Pelicula> it = peliculas.iterator();
+
+        while (it.hasNext()) {
+            Pelicula p = it.next();
+            System.out.println(" - " + p.resumen());
+        }
+        System.out.println();
+    }
+
+    public FiltrarPeliculas getFiltrarPeliculas(Genero genero, int duracion) {
+        return new FiltrarPeliculas(peliculas, genero, duracion);
     }
 
     // toString

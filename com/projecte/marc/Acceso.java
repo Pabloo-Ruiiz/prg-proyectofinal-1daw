@@ -121,6 +121,7 @@ public class Acceso {
                 while (true) {
                     Usuario u = (Usuario) in.readObject();
                     usuarios.add(u);
+                    Usuario.contador++;
                 }
 
             } catch (EOFException e) {
@@ -231,6 +232,7 @@ public class Acceso {
                             INICIO DE SESION
                 ----------------------------------------
                   """);
+
         System.out.print(" - Introduce el nombre completo del usuario: ");
         String nombre = entrada.nextLine();
 

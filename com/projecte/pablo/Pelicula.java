@@ -8,11 +8,11 @@ public class Pelicula implements Serializable, Comparable<Pelicula>, Gestionable
 
     // Enum con los diferentes Generos de peliculas
     public enum Genero {
-        ACCIO, AVENTURA, COMEDIA, DRAMA, TERROR, FICCIO, FANTASIA, ROMANTICA, MUSICAL, DOCUMENTAL;
+        ACCION, AVENTURA, COMEDIA, DRAMA, TERROR, FICCION, FANTASIA, ROMANTICA, MUSICAL, DOCUMENTAL;
     }
 
     // Contador estático para generar IDs automáticos
-    private static int contador = 0;
+    protected static int contador = 0;
 
     // Atributos
     private int id;
@@ -161,8 +161,8 @@ public class Pelicula implements Serializable, Comparable<Pelicula>, Gestionable
     // toString
     @Override
     public String toString() {
-        return "Pelicula [" + this.id + " | " + this.titulo + " | " + this.anyo + " | " + duracionHoras() + " | "
-                + this.genero + "]";
+        return getIdentificador() + " [ " + this.id + " | " + this.titulo + " | " + this.anyo + " | " + duracionHoras() + " | "
+                + this.genero + " ]";
     }
 
 }
