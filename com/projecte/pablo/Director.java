@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class Director implements Serializable, Gestionable {
 
     // Contador estático para generar IDs automáticos
-    private static int contador = 0;
+    protected static int contador = 0;
 
     // Atributos
     private int id;
@@ -157,8 +157,8 @@ public class Director implements Serializable, Gestionable {
     // toString
     @Override
     public String toString() {
-        return "Director [" + this.id + " | " + nombreCompleto() + " | " + calcularEdad() + " | " + this.fechaNacimiento
-                + " | " + this.nacionalidad + "]";
+        return getIdentificador() + " [ " + this.id + " | " + nombreCompleto() + " | " + calcularEdad() + " | " + this.fechaNacimiento
+                + " | " + this.nacionalidad + " ]";
     }
 
 }
