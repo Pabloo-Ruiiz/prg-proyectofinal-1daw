@@ -5,6 +5,11 @@ import com.projecte.marc.Usuario;
 import com.projecte.neil.Menu;
 import com.projecte.pablo.Catalogo;
 
+/**
+ * Clase principal de la aplicación.
+ *
+ * Arranca el sistema de acceso, crea el catálogo general y lanza el menú principal.
+ */
 public class ProgramaPrincipal {
 
     public static void main(String[] args) {
@@ -14,6 +19,7 @@ public class ProgramaPrincipal {
         
     }
 
+    // Inicia el flujo principal del programa.
     public void inici() {
         Usuario u = marc();
         Catalogo c = pablo(u);

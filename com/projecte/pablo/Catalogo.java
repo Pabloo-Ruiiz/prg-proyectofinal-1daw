@@ -14,6 +14,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
+/**
+ * Catálogo general de películas, directores y actores.
+ *
+ * Gestiona la carga, guardado y acceso a los datos generales de la aplicación.
+ */
 public class Catalogo implements Iterable<Pelicula> {
 
     // Listas generales de peliculas, directores y actores
@@ -21,7 +26,9 @@ public class Catalogo implements Iterable<Pelicula> {
     private ArrayList<Director> directores;
     private ArrayList<Actor> actores;
 
-    // Constructor
+    /**
+     * Inicializa el catálogo general y carga los datos desde los ficheros.
+     */
     public Catalogo() {
         // Inicializa las listas vacías.
         this.peliculas = new ArrayList<Pelicula>();
@@ -58,12 +65,21 @@ public class Catalogo implements Iterable<Pelicula> {
         this.actores = actores;
     }
 
-    // Permite recorrer la lista con for-each.
+    /**
+     * Devuelve un iterador para recorrer las películas del catálogo.
+     *
+     * @return iterador de películas.
+     */
     @Override
     public Iterator<Pelicula> iterator() {
         return peliculas.iterator();
     }
 
+    /**
+     * Crea la carpeta "datos" si no existe antes de guardar los ficheros.
+     *
+     * @throws IOException si la carpeta no puede crearse.
+     */
     public void crearCarpetaDatos() throws IOException {
         File directori = new File("datos");
 
@@ -76,6 +92,9 @@ public class Catalogo implements Iterable<Pelicula> {
         }
     }
 
+    /**
+     * Carga las películas generales desde el fichero "datos/peliculas.datos".
+     */
     public void cargarDatosGeneralesPeliculas() {
 
         File file = new File("datos/peliculas.datos");
@@ -112,6 +131,9 @@ public class Catalogo implements Iterable<Pelicula> {
 
     }
 
+    /**
+     * Carga los directores generales desde el fichero "datos/directores.datos".
+     */
     public void cargarDatosGeneralesDirectores() {
 
         File file = new File("datos/directores.datos");
@@ -148,6 +170,9 @@ public class Catalogo implements Iterable<Pelicula> {
 
     }
 
+    /**
+     * Carga los actores generales desde el fichero "datos/actores.datos".
+     */
     public void cargarDatosGeneralesActores() {
 
         File file = new File("datos/actores.datos");
@@ -182,6 +207,9 @@ public class Catalogo implements Iterable<Pelicula> {
         }
     }
 
+    /**
+     * Guarda las películas generales en el fichero "datos/peliculas.datos".
+     */
     public void guardarDatosGeneralesPeliculas() {
 
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("datos/peliculas.datos"));) {
@@ -197,6 +225,9 @@ public class Catalogo implements Iterable<Pelicula> {
 
     }
 
+    /**
+     * Guarda los directores generales en el fichero "datos/directores.datos".
+     */
     public void guardarDatosGeneralesDirectores() {
 
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("datos/directores.datos"));) {
@@ -212,6 +243,9 @@ public class Catalogo implements Iterable<Pelicula> {
 
     }
 
+    /**
+     * Guarda los actores generales en el fichero "datos/actores.datos".
+     */
     public void guardarDatosGeneralesActores() {
 
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("datos/actores.datos"));) {
@@ -286,10 +320,9 @@ public class Catalogo implements Iterable<Pelicula> {
         this.mostrarOrdenacionPeliculas(null);
     }
 
-    // Muestra las películas después de ordenar
     public void mostrarOrdenacionPeliculas(Comparator<Pelicula> comparator) {
         if (comparator == null) {
-            Collections.sort(peliculas); // Usa el compareTo de la clase Pelicula
+            Collections.sort(peliculas);
         } else {
             Collections.sort(peliculas, comparator);
         }

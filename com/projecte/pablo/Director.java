@@ -5,6 +5,11 @@ import com.projecte.utils.Gestionable;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+ * Representa a un director con sus datos personales.
+ *
+ * Esta clase es serializable para poder guardarla en fichero y forma parte del catálogo.
+ */
 public class Director implements Serializable, Gestionable {
 
     // Contador estático para generar IDs automáticos
@@ -17,7 +22,14 @@ public class Director implements Serializable, Gestionable {
     private LocalDate fechaNacimiento;
     private String nacionalidad;
 
-    // Constructor
+    /**
+     * Crea un nuevo director con los datos proporcionados.
+     *
+     * @param nombre nombre del director.
+     * @param apellidos apellidos del director.
+     * @param fechaNacimiento fecha de nacimiento del director.
+     * @param nacionalidad nacionalidad del director.
+     */
     public Director(String nombre, String apellidos, LocalDate fechaNacimiento, String nacionalidad) {
         contador++;
         this.id = contador;

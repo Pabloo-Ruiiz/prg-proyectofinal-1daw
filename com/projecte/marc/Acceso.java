@@ -15,16 +15,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/*
-* Clase encargada de gestionar el acceso de usuarios al sistema.
-* 
-* Permite:
-* - Iniciar sesión.
-* - Registrar nuevos usuarios.
-* - Guardar y cargar usuarios desde fichero.
-* - Crear carpetas personales para cada usuario.
-* 
-*/
+/**
+ * Gestiona el acceso y el registro de usuarios en el sistema.
+ *
+ * Esta clase carga y guarda los usuarios desde el fichero principal
+ * y permite iniciar sesión o crear nuevos usuarios.
+ */
 public class Acceso {
 
     // Scanner para leer datos introducidos por teclado
@@ -47,8 +43,11 @@ public class Acceso {
         this.usuarios = usuarios;
     }
 
-    // Metodo principal
-    // Muestra el menu de acceso y permite iniciar sesion o registrarse.
+    /**
+     * Muestra el menú de acceso y permite al usuario iniciar sesión o registrarse.
+     * 
+     * @return el usuario registrado o con el que se ha iniciado sesion.
+     */
     public Usuario inicio() {
 
         int opcion = 0;
@@ -93,7 +92,7 @@ public class Acceso {
         return usuario;
     }
 
-    // Muestra el menu principal de acceso
+    // Muestra el menú principal de acceso en consola.
     public void menuAcceso() {
         System.out.println("""
                 ----------------------------------------
@@ -108,8 +107,11 @@ public class Acceso {
         System.out.print("Elige una opcion: ");
     }
 
-    // Carga los usuarios desde el fichero "usuarios.llista"
-    // Si el fichero no existe, se crea automaticamente un usuario administrador.
+    /**
+     * Carga los usuarios registrados desde el fichero "usuarios.llista".
+     *
+     * Si el fichero no existe, se crea un usuario administrador por defecto.
+     */
     public void cargarDatos() {
 
         File file = new File("usuarios.llista");
@@ -140,14 +142,14 @@ public class Acceso {
         }
     }
 
-    // Muestra todos los usuarios registrados
+    // Muestra por consola todos los usuarios registrados.
     public void mostrarUsuarios() {
         for (Usuario u : usuarios) {
             System.out.println(" - " + u.toString());
         }
     }
 
-    // Guarda todos los usuarios en el fichero "usuarios.llista".
+    // Guarda todos los usuarios actuales en el fichero "usuarios.llista".
     public void guardarDatos() {
 
         try (ObjectOutputStream out = new ObjectOutputStream(
@@ -164,12 +166,16 @@ public class Acceso {
 
     }
 
-    // Registra un nuevo usuario en el sistema
-    // El metodo devuelve un usuario
-    // @throws DatoInvalidoException Si algún dato introducido no es válido
+    /**
+     * Registra un nuevo usuario en el sistema.
+     *
+     * @return el usuario registrado.
+     * @throws DatoInvalidoException si algún dato introducido no es válido.
+     */
     public Usuario registro() throws DatoInvalidoException {
         System.out.println("""
-                \n----------------------------------------
+
+                ----------------------------------------
                                 REGISTRO
                 ----------------------------------------
                   """);
@@ -223,12 +229,16 @@ public class Acceso {
         return new Usuario(nombre, apellidos, correo, contrasenya, poblacion, rol, fecha);
     }
 
-    // Permite iniciar sesión a un usuario registrado.
-    // El metodo devuelve un usuario
-    // @throws DatoInvalidoException Si algún dato introducido no es válido
+    /**
+     * Permite iniciar sesión a un usuario registrado.
+     *
+     * @return el usuario autenticado.
+     * @throws DatoInvalidoException si los datos de acceso son incorrectos.
+     */
     public Usuario iniciarSesion() throws DatoInvalidoException {
         System.out.println("""
-                \n----------------------------------------
+
+                ----------------------------------------
                             INICIO DE SESION
                 ----------------------------------------
                   """);
@@ -262,8 +272,12 @@ public class Acceso {
         return usuario;
     }
 
-    // Busca un usuario por su nombre completo.
-    // Devuelve Usuario encontrado o null si no existe
+    /**
+     * Busca un usuario por su nombre completo.
+     *
+     * @param nombreCompleto nombre completo del usuario.
+     * @return usuario encontrado o null si no existe.
+     */
     public Usuario buscarUsuario(String nombreCompleto) {
         for (Usuario u : usuarios) {
             if (u.nombreCompleto().equalsIgnoreCase(nombreCompleto)) {
@@ -273,9 +287,15 @@ public class Acceso {
         return null;
     }
 
+    /**
+     * Muestra un mensaje de bienvenida para el usuario autenticado.
+     *
+     * @param u usuario autenticado.
+     */
     public void bienvenida(Usuario u) {
         System.out.println("""
-                \n========================================
+            
+                ========================================
                    BIENVENIDO AL GESTOR DE PELÍCULAS
                 ========================================
                         Usuario: %s

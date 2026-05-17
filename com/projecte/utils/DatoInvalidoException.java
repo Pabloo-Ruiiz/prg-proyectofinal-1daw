@@ -1,9 +1,17 @@
 package com.projecte.utils;
 
-//Excepcion personalizada que se lanza cuando un dato introducido no es valido.
-//Esta clase hereda de RuntimeException, por lo que es una excepcion no comprobada.
+/**
+ * Excepción personalizada que se lanza cuando un dato introducido no es válido.
+ *
+ * Esta excepción hereda de {@link RuntimeException}, por lo que es no comprobada.
+ */
 public class DatoInvalidoException extends RuntimeException {
     
+    /**
+     * Construye una excepción con un mensaje de error.
+     *
+     * @param mensaje descripción del error.
+     */
     public DatoInvalidoException(String mensaje) {
         super(mensaje);
     }
