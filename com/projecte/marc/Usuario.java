@@ -23,9 +23,11 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 /**
- * Representa un usuario del sistema con listas particulares de películas, directores y actores.
+ * Representa un usuario del sistema con listas particulares de películas,
+ * directores y actores.
  *
- * Esta clase es serializable y gestiona la carga y el guardado de las listas particulares en ficheros.
+ * Esta clase es serializable y gestiona la carga y el guardado de las listas
+ * particulares en ficheros.
  */
 public class Usuario implements Serializable {
 
@@ -56,12 +58,12 @@ public class Usuario implements Serializable {
     /**
      * Construye un nuevo usuario con los datos personales y rol indicados.
      *
-     * @param nombre nombre del usuario.
-     * @param apellidos apellidos del usuario.
-     * @param correo correo electrónico del usuario.
-     * @param contrasenya contraseña del usuario.
-     * @param poblacion población del usuario.
-     * @param rol rol del usuario.
+     * @param nombre          nombre del usuario.
+     * @param apellidos       apellidos del usuario.
+     * @param correo          correo electrónico del usuario.
+     * @param contrasenya     contraseña del usuario.
+     * @param poblacion       población del usuario.
+     * @param rol             rol del usuario.
      * @param fechaNacimiento fecha de nacimiento del usuario.
      */
     public Usuario(String nombre, String apellidos, String correo, String contrasenya, String poblacion, Rol rol,
@@ -79,6 +81,12 @@ public class Usuario implements Serializable {
         setRol(rol);
         setFechaNacimiento(fechaNacimiento);
 
+        try {
+            crearCarpetaUsuario();
+        } catch (IOException e) {
+            System.out.println("\nERROR: " + e.getMessage() + "\n");
+        }
+
         this.peliculas = new ArrayList<Pelicula>();
         this.directores = new ArrayList<Director>();
         this.actores = new ArrayList<Actor>();
@@ -88,8 +96,9 @@ public class Usuario implements Serializable {
      * Restauración personalizada de la serialización del usuario.
      *
      * @param in objeto de entrada para lectura.
-     * @throws IOException si se produce un error de E/S.
-     * @throws ClassNotFoundException si no se encuentra una clase durante la lectura.
+     * @throws IOException            si se produce un error de E/S.
+     * @throws ClassNotFoundException si no se encuentra una clase durante la
+     *                                lectura.
      */
     private void readObject(ObjectInputStream in)
             throws IOException, ClassNotFoundException {
@@ -209,8 +218,21 @@ public class Usuario implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public ArrayList<Pelicula> getPeliculas() {
+        return peliculas;
+    }
+
+    public ArrayList<Director> getDirectores() {
+        return directores;
+    }
+
+    public ArrayList<Actor> getActores() {
+        return actores;
+    }
+
     /**
-     * Genera un identificador único para el usuario usando su ID y la parte local del correo.
+     * Genera un identificador único para el usuario usando su ID y la parte local
+     * del correo.
      *
      * @return identificador de usuario.
      */
@@ -531,12 +553,12 @@ public class Usuario implements Serializable {
     /**
      * Busca un director en la lista particular del usuario.
      *
-     * @param texto identificador del director.
+     * @param id identificador del director.
      * @return director encontrado o null si no existe.
      */
-    public Director buscarDirector(String texto) {
+    public Director buscarDirector(String id) {
         for (Director d : directores) {
-            if (d.getIdentificador().equalsIgnoreCase(texto)) {
+            if (d.getIdentificador().equalsIgnoreCase(id)) {
                 return d;
             }
         }
@@ -546,12 +568,12 @@ public class Usuario implements Serializable {
     /**
      * Busca un actor en la lista particular del usuario.
      *
-     * @param texto identificador del actor.
+     * @param id identificador del actor.
      * @return actor encontrado o null si no existe.
      */
-    public Actor buscarActor(String texto) {
+    public Actor buscarActor(String id) {
         for (Actor a : actores) {
-            if (a.getIdentificador().equalsIgnoreCase(texto)) {
+            if (a.getIdentificador().equalsIgnoreCase(id)) {
                 return a;
             }
         }
@@ -613,7 +635,8 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Elimina de las listas particulares los elementos que ya no existen en el catálogo general.
+     * Elimina de las listas particulares los elementos que ya no existen en el
+     * catálogo general.
      *
      * @param c catálogo general de referencia.
      */
@@ -658,7 +681,8 @@ public class Usuario implements Serializable {
     /**
      * Muestra la lista de películas ordenada con el comparador proporcionado.
      *
-     * @param comparator comparador para ordenar las películas; si es null usa el orden natural.
+     * @param comparator comparador para ordenar las películas; si es null usa el
+     *                   orden natural.
      */
     public void mostrarOrdenacionPeliculas(Comparator<Pelicula> comparator) {
         if (comparator == null) {
@@ -668,6 +692,10 @@ public class Usuario implements Serializable {
         }
 
         Iterator<Pelicula> it = peliculas.iterator();
+
+        if (!it.hasNext()) {
+            System.out.println("\nINFORMACION: Tu catalogo de peliculas esta vacio.\n");
+        }
 
         while (it.hasNext()) {
             Pelicula p = it.next();
@@ -679,7 +707,7 @@ public class Usuario implements Serializable {
     /**
      * Crea un filtro para la lista particular de películas del usuario.
      *
-     * @param genero genero de búsqueda.
+     * @param genero   genero de búsqueda.
      * @param duracion duración máxima en minutos.
      * @return filtro de películas preparado.
      */
