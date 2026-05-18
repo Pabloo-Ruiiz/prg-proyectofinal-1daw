@@ -87,7 +87,7 @@ public class Catalogo implements Iterable<Pelicula> {
             // Carpeta creada correctamente
         } else {
             if (!directori.exists()) {
-                throw new IOException("\nLa carpeta no se pudo crear.\n");
+                throw new IOException("\nINFORMACION: La carpeta no se pudo crear.\n");
             }
         }
     }
@@ -338,7 +338,7 @@ public class Catalogo implements Iterable<Pelicula> {
 
     public boolean mostrarDatosGeneralesPeliculas() {
         if (peliculas.isEmpty()) {
-            System.out.println("\nTu catalogo de peliculas esta vacio.\n");
+            System.out.println("\nINFORMACION: Tu catalogo de peliculas esta vacio.\n");
             return true;
         }
 
@@ -350,7 +350,7 @@ public class Catalogo implements Iterable<Pelicula> {
 
     public boolean mostrarDatosGeneralesDirectores() {
         if (directores.isEmpty()) {
-            System.out.println("\nTu catalogo de directores esta vacio.\n");
+            System.out.println("\nINFORMACION: Tu catalogo de directores esta vacio.\n");
             return true;
         }
 
@@ -362,7 +362,7 @@ public class Catalogo implements Iterable<Pelicula> {
 
     public boolean mostrarDatosGeneralesActores() {
         if (actores.isEmpty()) {
-            System.out.println("\nTu catalogo de actores esta vacio.\n");
+            System.out.println("\nINFORMACION: Tu catalogo de actores esta vacio.\n");
             return true;
         }
 

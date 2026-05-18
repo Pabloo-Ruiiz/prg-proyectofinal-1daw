@@ -66,7 +66,7 @@ public class Director implements Serializable, Gestionable {
         if (nombre != null && !nombre.isEmpty()) {
             this.nombre = nombre;
         } else {
-            throw new DatoInvalidoException("\nEl nombre del director no puede estar vacío.\n");
+            throw new DatoInvalidoException("\nINFORMACION: El nombre del director no puede estar vacío.\n");
         }
     }
 
@@ -78,7 +78,7 @@ public class Director implements Serializable, Gestionable {
         if (apellidos != null && !apellidos.isEmpty()) {
             this.apellidos = apellidos;
         } else {
-            throw new DatoInvalidoException("\nLos apellidos del director no pueden estar vacíos.\n");
+            throw new DatoInvalidoException("\nINFORMACION: Los apellidos del director no pueden estar vacíos.\n");
         }
     }
 
@@ -88,11 +88,11 @@ public class Director implements Serializable, Gestionable {
 
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         if (fechaNacimiento == null) {
-            throw new DatoInvalidoException("\nLa fecha de nacimiento no puede ser null.\n");
+            throw new DatoInvalidoException("\nINFORMACION: La fecha de nacimiento no puede ser null.\n");
         }
 
         if (fechaNacimiento.isAfter(LocalDate.now())) {
-            throw new DatoInvalidoException("\nLa fecha de nacimiento no puede ser futura.\n");
+            throw new DatoInvalidoException("\nINFORMACION: La fecha de nacimiento no puede ser futura.\n");
         }
 
         this.fechaNacimiento = fechaNacimiento;
@@ -106,7 +106,7 @@ public class Director implements Serializable, Gestionable {
         if (nacionalidad != null && !nacionalidad.isEmpty()) {
             this.nacionalidad = nacionalidad;
         } else {
-            throw new DatoInvalidoException("\nLa nacionalidad no puede estar vacía.\n");
+            throw new DatoInvalidoException("\nINFORMACION: La nacionalidad no puede estar vacía.\n");
         }
     }
 
