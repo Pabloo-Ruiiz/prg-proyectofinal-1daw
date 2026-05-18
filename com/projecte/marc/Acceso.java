@@ -61,7 +61,7 @@ public class Acceso {
 
                 // Comprueba si la opcion es valida
                 if (opcion != 1 && opcion != 2) {
-                    throw new DatoInvalidoException("\nError: Valor fuera de rango.\n");
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
                 }
 
                 switch (opcion) {
@@ -79,7 +79,7 @@ public class Acceso {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("\nError: Valor no numerico.\n");
+                System.out.println("\nERROR: Valor no numerico.\n");
                 opcion = 0;
             } catch (DatoInvalidoException e) {
                 System.out.println(e.getMessage());
@@ -129,9 +129,9 @@ public class Acceso {
             } catch (EOFException e) {
                 // Fin del fichero
             } catch (IOException e) {
-                System.out.println("\n" + e.getMessage() + "\n");
+                System.out.println("\nERROR: " + e.getMessage() + "\n");
             } catch (ClassNotFoundException e) {
-                System.out.println("\n" + e.getMessage() + "\n");
+                System.out.println("\nERROR: " + e.getMessage() + "\n");
                 e.printStackTrace();
             }
         } else {
@@ -161,7 +161,7 @@ public class Acceso {
             }
 
         } catch (IOException e) {
-            System.out.println("\n" + e.getMessage() + "\n");
+            System.out.println("\nERROR: " + e.getMessage() + "\n");
         }
 
     }
@@ -191,7 +191,7 @@ public class Acceso {
 
         if (usuario != null) {
             throw new DatoInvalidoException(
-                    "\nError: Ya existe un usuario registrado con el nombre " + nombreCompleto + ".\n");
+                    "\nERROR: Ya existe un usuario registrado con el nombre " + nombreCompleto + ".\n");
         }
 
         System.out.print(" - Introduce el correo de " + nombre + ": ");
@@ -200,7 +200,7 @@ public class Acceso {
         // Validacion del correo electronico
         if (!correo.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.(es|com)$")) {
             throw new DatoInvalidoException(
-                    "\nError: el correo no es válido. Debe contener '@' y terminar en '.es' o '.com'");
+                    "\nERROR: el correo no es válido. Debe contener '@' y terminar en '.es' o '.com'");
         }
 
         System.out.print(" - Introduce la poblacion de " + nombre + ": ");
@@ -224,7 +224,7 @@ public class Acceso {
 
         // Comprueba si las contraseñas coinciden
         if (!contrasenya.equalsIgnoreCase(confirmacion)) {
-            throw new DatoInvalidoException("\nError: La contrasenya introducida no coincide.\n");
+            throw new DatoInvalidoException("\nERROR: La contrasenya introducida no coincide.\n");
         }
         return new Usuario(nombre, apellidos, correo, contrasenya, poblacion, rol, fecha);
     }
@@ -251,7 +251,7 @@ public class Acceso {
 
         if (usuario == null) {
             throw new DatoInvalidoException(
-                    "\nError: No se ha encontrado ningún usuario registrado con el nombre " + nombre + ".\n");
+                    "\nERROR: No se ha encontrado ningún usuario registrado con el nombre " + nombre + ".\n");
         }
 
         System.out.print(" - Introduce la contraseña: ");
@@ -259,7 +259,7 @@ public class Acceso {
 
         // Verifica la contraseña
         if (!usuario.getContrasenya().equalsIgnoreCase(contrasenya)) {
-            throw new DatoInvalidoException("\nError: La contrasenya introducida es incorrecta.\n");
+            throw new DatoInvalidoException("\nERROR: La contrasenya introducida es incorrecta.\n");
         }
 
         System.out.print(" - Confirma la contraseña introducida: ");
@@ -267,7 +267,7 @@ public class Acceso {
 
         // Comprueba la confirmación
         if (!usuario.getContrasenya().equalsIgnoreCase(confirmacion)) {
-            throw new DatoInvalidoException("\nError: La contrasenya introducida no coincide.\n");
+            throw new DatoInvalidoException("\nERROR: La contrasenya introducida no coincide.\n");
         }
         return usuario;
     }

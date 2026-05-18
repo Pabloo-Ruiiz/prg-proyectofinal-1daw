@@ -80,7 +80,7 @@ public class Menu {
 
                 // Comprueba si la opcion es valida
                 if (opcion > 5 || opcion < 0) {
-                    throw new DatoInvalidoException("\nError: Valor fuera de rango.\n");
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
                 }
 
                 switch (opcion) {
@@ -107,7 +107,7 @@ public class Menu {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("\nError: Valor no numerico.\n");
+                System.out.println("\nERROR: Valor no numerico.\n");
             } catch (DatoInvalidoException e) {
                 System.out.println(e.getMessage());
             }
@@ -258,7 +258,7 @@ public class Menu {
 
             if (p != null) {
                 System.out.println("\n" + p.resumen());
-                throw new DatoInvalidoException("La pelicula " + titulo + " ya existe en el catálogo.\n");
+                throw new DatoInvalidoException("INFORMACION: La pelicula " + titulo + " ya existe en el catálogo.\n");
             }
 
             System.out.print("¿En que año se estreno la pelicula " + titulo + "? ");
@@ -278,7 +278,7 @@ public class Menu {
         } catch (DatoInvalidoException e) {
             System.out.println(e.getMessage());
         } catch (IllegalArgumentException e) {
-            System.out.println("\nError: El género introducido no es válido.\n");
+            System.out.println("\nERROR: El género introducido no es válido.\n");
         }
 
     }
@@ -304,7 +304,7 @@ public class Menu {
 
             if (d != null) {
                 System.out.println("\n" + d.resumen());
-                throw new DatoInvalidoException("El director " + nombreCompleto + " ya existe en el catálogo.\n");
+                throw new DatoInvalidoException("INFORMACION: El director " + nombreCompleto + " ya existe en el catálogo.\n");
             }
 
             System.out.print("Introduce la fecha de nacimiento de " + nombre + " (yyyy/MM/dd): ");
@@ -345,7 +345,7 @@ public class Menu {
 
             if (a != null) {
                 System.out.println("\n" + a.resumen());
-                throw new DatoInvalidoException("El actor " + nombreCompleto + " ya existe en el catálogo.\n");
+                throw new DatoInvalidoException("INFORMACION: El actor " + nombreCompleto + " ya existe en el catálogo.\n");
             }
 
             System.out.print("Introduce la fecha de nacimiento de " + nombre + " (yyyy/MM/dd): ");
@@ -382,7 +382,7 @@ public class Menu {
 
                 // Comprueba si la opcion es valida
                 if (opcionSubmenu > 3 || opcionSubmenu < 0) {
-                    throw new DatoInvalidoException("\nError: Valor fuera de rango.\n");
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
                 }
 
                 switch (opcionSubmenu) {
@@ -409,13 +409,13 @@ public class Menu {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("\nError: Valor no numerico.\n");
+                System.out.println("\nERROR: Valor no numerico.\n");
             } catch (DatoInvalidoException e) {
                 System.out.println(e.getMessage());
             }
         } else {
             throw new DatoInvalidoException(
-                    "\nEl usuario no puede acceder a este apartado. Para acceder se necesita ser administrador del catalogo.\n");
+                    "\nINFORMACION: El usuario no puede acceder a este apartado. Para acceder se necesita ser administrador del catalogo.\n");
         }
     }
 
@@ -434,7 +434,7 @@ public class Menu {
 
                 // Comprueba si la opcion es valida
                 if (opcionSubmenu > 3 || opcionSubmenu < 0) {
-                    throw new DatoInvalidoException("\nError: Valor fuera de rango.");
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.");
                 }
 
                 switch (opcionSubmenu) {
@@ -455,7 +455,7 @@ public class Menu {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("\nError: Valor no numerico.");
+                System.out.println("\nERROR: Valor no numerico.");
             } catch (DatoInvalidoException e) {
                 System.out.println(e.getMessage());
             }
@@ -487,7 +487,7 @@ public class Menu {
 
                 // Comprueba si la opcion es valida
                 if (opcionSubmenu != 0 && opcionSubmenu != 1) {
-                    throw new DatoInvalidoException("\nError: Valor fuera de rango.\n");
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
                 }
 
                 switch (opcionSubmenu) {
@@ -504,7 +504,7 @@ public class Menu {
 
                         if (p == null) {
                             throw new DatoInvalidoException(
-                                    "\nLa pelicula con el identificador " + detalles
+                                    "\nINFORMACION: La pelicula con el identificador " + detalles
                                             + " no esta en el catalogo.\n");
                         }
                         System.out.println();
@@ -515,7 +515,7 @@ public class Menu {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("\nError: Valor no numerico.\n");
+                System.out.println("\nERROR: Valor no numerico.\n");
             } catch (DatoInvalidoException e) {
                 System.out.println(e.getMessage());
             }
@@ -547,7 +547,7 @@ public class Menu {
 
                 // Comprueba si la opcion es valida
                 if (opcionSubmenu != 0 && opcionSubmenu != 1) {
-                    throw new DatoInvalidoException("\nError: Valor fuera de rango.\n");
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
                 }
 
                 switch (opcionSubmenu) {
@@ -564,7 +564,7 @@ public class Menu {
 
                         if (d == null) {
                             throw new DatoInvalidoException(
-                                    "\nEl director con el identificador " + detalles
+                                    "\nINFORMACION: El director con el identificador " + detalles
                                             + " no esta en el catalogo.\n");
                         }
                         System.out.println();
@@ -576,7 +576,7 @@ public class Menu {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("\nError: Valor no numerico.\n");
+                System.out.println("\nERROR: Valor no numerico.\n");
             } catch (DatoInvalidoException e) {
                 System.out.println(e.getMessage());
             }
@@ -606,7 +606,7 @@ public class Menu {
 
             // Comprueba si la opcion es valida
             if (opcionSubmenu != 0 && opcionSubmenu != 1) {
-                throw new DatoInvalidoException("\nError: Valor fuera de rango.\n");
+                throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
             }
 
             switch (opcionSubmenu) {
@@ -623,7 +623,7 @@ public class Menu {
 
                     if (a == null) {
                         throw new DatoInvalidoException(
-                                "\nEl actor con el identificador " + detalles
+                                "\nINFORMACION: El actor con el identificador " + detalles
                                         + " no esta en el catalogo.\n");
                     }
                     System.out.println();
@@ -634,7 +634,7 @@ public class Menu {
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("\nError: Valor no numerico.\n");
+            System.out.println("\nERROR: Valor no numerico.\n");
         } catch (DatoInvalidoException e) {
             System.out.println(e.getMessage());
         }
@@ -655,7 +655,7 @@ public class Menu {
 
                 // Comprueba si la opcion es valida
                 if (opcionSubmenu > 3 || opcionSubmenu < 0) {
-                    throw new DatoInvalidoException("\nError: Valor fuera de rango.");
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.");
                 }
 
                 switch (opcionSubmenu) {
@@ -688,7 +688,7 @@ public class Menu {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("\nError: Valor no numerico.");
+                System.out.println("\nERROR: Valor no numerico.");
             } catch (DatoInvalidoException e) {
                 System.out.println(e.getMessage());
             }
@@ -712,7 +712,7 @@ public class Menu {
 
                 // Comprueba si la opcion es valida
                 if (opcionSubmenu > 4 || opcionSubmenu < 1) {
-                    throw new DatoInvalidoException("\nError: Valor fuera de rango.\n");
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
                 }
 
                 switch (opcionSubmenu) {
@@ -769,7 +769,7 @@ public class Menu {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("\nError: Valor no numerico.\n");
+                System.out.println("\nERROR: Valor no numerico.\n");
             } catch (DatoInvalidoException e) {
                 System.out.println(e.getMessage());
             }
@@ -792,7 +792,7 @@ public class Menu {
 
                 // Comprueba si la opcion es valida
                 if (opcionSubmenu > 4 || opcionSubmenu < 1) {
-                    throw new DatoInvalidoException("\nError: Valor fuera de rango.\n");
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
                 }
 
                 switch (opcionSubmenu) {
@@ -849,7 +849,7 @@ public class Menu {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("\nError: Valor no numerico.\n");
+                System.out.println("\nERROR: Valor no numerico.\n");
             } catch (DatoInvalidoException e) {
                 System.out.println(e.getMessage());
             }
@@ -872,7 +872,7 @@ public class Menu {
 
                 // Comprueba si la opcion es valida
                 if (opcionSubmenu > 2 || opcionSubmenu < 0) {
-                    throw new DatoInvalidoException("\nError: Valor fuera de rango.");
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.");
                 }
 
                 switch (opcionSubmenu) {
@@ -890,7 +890,7 @@ public class Menu {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("\nError: Valor no numerico.");
+                System.out.println("\nERROR: Valor no numerico.");
             } catch (DatoInvalidoException e) {
                 System.out.println(e.getMessage());
             }
@@ -914,7 +914,7 @@ public class Menu {
 
                 // Comprueba si la opcion es valida
                 if (opcionSubmenu > 3 || opcionSubmenu < 0) {
-                    throw new DatoInvalidoException("\nError: Valor fuera de rango.");
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.");
                 }
 
                 switch (opcionSubmenu) {
@@ -934,7 +934,7 @@ public class Menu {
 
                         if (p == null) {
                             throw new DatoInvalidoException(
-                                    "\nLa pelicula con el identificador " + id
+                                    "\nINFORMACION: La pelicula con el identificador " + id
                                             + " no esta en el catalogo.\n");
                         }
 
@@ -958,7 +958,7 @@ public class Menu {
 
                         if (d == null) {
                             throw new DatoInvalidoException(
-                                    "\nEl director con el identificador " + ide
+                                    "\nINFORMACION: El director con el identificador " + ide
                                             + " no esta en el catalogo.\n");
                         }
 
@@ -982,7 +982,7 @@ public class Menu {
 
                         if (a == null) {
                             throw new DatoInvalidoException(
-                                    "\nEl actor con el identificador " + ids
+                                    "\nINFORMACION: El actor con el identificador " + ids
                                             + " no esta en el catalogo.\n");
                         }
 
@@ -998,7 +998,7 @@ public class Menu {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("\nError: Valor no numerico.");
+                System.out.println("\nERROR: Valor no numerico.");
             } catch (DatoInvalidoException e) {
                 System.out.println(e.getMessage());
             }
@@ -1024,7 +1024,7 @@ public class Menu {
 
                     // Comprueba si la opcion es valida
                     if (opcionSubmenu > 3 || opcionSubmenu < 0) {
-                        throw new DatoInvalidoException("\nError: Valor fuera de rango.");
+                        throw new DatoInvalidoException("\nERROR: Valor fuera de rango.");
                     }
 
                     switch (opcionSubmenu) {
@@ -1044,7 +1044,7 @@ public class Menu {
 
                             if (p == null) {
                                 throw new DatoInvalidoException(
-                                        "\nLa pelicula con el identificador " + id
+                                        "\nINFORMACION: La pelicula con el identificador " + id
                                                 + " no esta en el catalogo.\n");
                             }
 
@@ -1068,7 +1068,7 @@ public class Menu {
 
                             if (d == null) {
                                 throw new DatoInvalidoException(
-                                        "\nEl director con el identificador " + ide
+                                        "\nINFORMACION: El director con el identificador " + ide
                                                 + " no esta en el catalogo.\n");
                             }
 
@@ -1092,7 +1092,7 @@ public class Menu {
 
                             if (a == null) {
                                 throw new DatoInvalidoException(
-                                        "\nEl actor con el identificador " + ids
+                                        "\nINFORMACION: El actor con el identificador " + ids
                                                 + " no esta en el catalogo.\n");
                             }
 
@@ -1108,7 +1108,7 @@ public class Menu {
                     }
 
                 } catch (NumberFormatException e) {
-                    System.out.println("\nError: Valor no numerico.");
+                    System.out.println("\nERROR: Valor no numerico.");
                 } catch (DatoInvalidoException e) {
                     System.out.println(e.getMessage());
                 }
@@ -1117,7 +1117,7 @@ public class Menu {
 
         } else {
             throw new DatoInvalidoException(
-                    "\nEl usuario no puede acceder a este apartado. Para acceder se necesita ser administrador del catalogo.\n");
+                    "\nINFORMACION: El usuario no puede acceder a este apartado. Para acceder se necesita ser administrador del catalogo.\n");
         }
 
     }
@@ -1136,7 +1136,7 @@ public class Menu {
 
                 // Comprueba si la opcion es valida
                 if (opcionSubmenu > 3 || opcionSubmenu < 0) {
-                    throw new DatoInvalidoException("\nError: Valor fuera de rango.");
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.");
                 }
 
                 switch (opcionSubmenu) {
@@ -1157,7 +1157,7 @@ public class Menu {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("\nError: Valor no numerico.");
+                System.out.println("\nERROR: Valor no numerico.");
             } catch (DatoInvalidoException e) {
                 System.out.println(e.getMessage());
             }
@@ -1184,7 +1184,7 @@ public class Menu {
 
         if (p == null) {
             throw new DatoInvalidoException(
-                    "\nLa pelicula con el identificador " + id
+                    "\nINFORMACION: La pelicula con el identificador " + id
                             + " no esta en el catalogo.\n");
         }
 
@@ -1212,7 +1212,7 @@ public class Menu {
 
         if (d == null) {
             throw new DatoInvalidoException(
-                    "\nEl director con el identificador " + id
+                    "\nINFORMACION: El director con el identificador " + id
                             + " no esta en el catalogo.\n");
         }
 
@@ -1240,7 +1240,7 @@ public class Menu {
 
         if (a == null) {
             throw new DatoInvalidoException(
-                    "\nEl actor con el identificador " + id
+                    "\nINFORMACION: El actor con el identificador " + id
                             + " no esta en el catalogo.\n");
         }
 

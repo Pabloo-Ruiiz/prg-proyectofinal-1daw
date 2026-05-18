@@ -70,7 +70,7 @@ public class Pelicula implements Serializable, Comparable<Pelicula>, Gestionable
         if (titulo != null && !titulo.isEmpty()) {
             this.titulo = titulo;
         } else {
-            throw new DatoInvalidoException("\nEl titulo no puede estar vacio.\n");
+            throw new DatoInvalidoException("\nINFORMACION: El titulo no puede estar vacio.\n");
         }
     }
 
@@ -82,7 +82,7 @@ public class Pelicula implements Serializable, Comparable<Pelicula>, Gestionable
         if (anyo > 0) {
             this.anyo = anyo;
         } else {
-            throw new DatoInvalidoException("\nEl año no puede ser menor o igual a 0.\n");
+            throw new DatoInvalidoException("\nINFORMACION: El año no puede ser menor o igual a 0.\n");
         }
     }
 
@@ -94,7 +94,7 @@ public class Pelicula implements Serializable, Comparable<Pelicula>, Gestionable
         if (duracion > 0) {
             this.duracion = duracion;
         } else {
-            throw new DatoInvalidoException("\nLa duracion no puede ser menor o igual a 0.\n");
+            throw new DatoInvalidoException("\nINFORMACION: La duracion no puede ser menor o igual a 0.\n");
         }
     }
 
@@ -106,7 +106,7 @@ public class Pelicula implements Serializable, Comparable<Pelicula>, Gestionable
         if (genero != null) {
             this.genero = genero;
         } else {
-            throw new DatoInvalidoException("\nEl genero no puede ser null.\n");
+            throw new DatoInvalidoException("\nINFORMACION: El genero no puede ser null.\n");
         }
     }
 

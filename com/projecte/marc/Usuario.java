@@ -129,7 +129,7 @@ public class Usuario implements Serializable {
         if (nombre != null && !nombre.isEmpty()) {
             this.nombre = nombre;
         } else {
-            throw new DatoInvalidoException("\nEl nombre no puede estar vacio.\n");
+            throw new DatoInvalidoException("\nINFORMACION: El nombre no puede estar vacio.\n");
         }
     }
 
@@ -141,7 +141,7 @@ public class Usuario implements Serializable {
         if (apellidos != null && !apellidos.isEmpty()) {
             this.apellidos = apellidos;
         } else {
-            throw new DatoInvalidoException("\nLos apellidos no pueden estar vacios.\n");
+            throw new DatoInvalidoException("\nINFORMACION: Los apellidos no pueden estar vacios.\n");
         }
     }
 
@@ -153,7 +153,7 @@ public class Usuario implements Serializable {
         if (correo != null && !correo.isEmpty()) {
             this.correo = correo;
         } else {
-            throw new DatoInvalidoException("\nEl correo no puede estar vacio.\n");
+            throw new DatoInvalidoException("\nINFORMACION: El correo no puede estar vacio.\n");
         }
     }
 
@@ -165,7 +165,7 @@ public class Usuario implements Serializable {
         if (contrasenya != null && !contrasenya.isEmpty()) {
             this.contrasenya = contrasenya;
         } else {
-            throw new DatoInvalidoException("\nLa contraseña no puede estar vacia.\n");
+            throw new DatoInvalidoException("\nINFORMACION: La contraseña no puede estar vacia.\n");
         }
     }
 
@@ -177,7 +177,7 @@ public class Usuario implements Serializable {
         if (poblacion != null && !poblacion.isEmpty()) {
             this.poblacion = poblacion;
         } else {
-            throw new DatoInvalidoException("\nLa poblacion no puede estar vacia.\n");
+            throw new DatoInvalidoException("\nINFORMACION: La poblacion no puede estar vacia.\n");
         }
     }
 
@@ -189,7 +189,7 @@ public class Usuario implements Serializable {
         if (rol != null) {
             this.rol = rol;
         } else {
-            throw new DatoInvalidoException("\nEl rol no puede ser null.\n");
+            throw new DatoInvalidoException("\nINFORMACION: El rol no puede ser null.\n");
         }
     }
 
@@ -199,11 +199,11 @@ public class Usuario implements Serializable {
 
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         if (fechaNacimiento == null) {
-            throw new DatoInvalidoException("\nLa fecha de nacimiento no puede ser null.\n");
+            throw new DatoInvalidoException("\nINFORMACION: La fecha de nacimiento no puede ser null.\n");
         }
 
         if (fechaNacimiento.isAfter(LocalDate.now())) {
-            throw new DatoInvalidoException("\nLa fecha de nacimiento no puede ser futura.\n");
+            throw new DatoInvalidoException("\nINFORMACION: La fecha de nacimiento no puede ser futura.\n");
         }
 
         this.fechaNacimiento = fechaNacimiento;
@@ -286,7 +286,7 @@ public class Usuario implements Serializable {
             // Carpeta creada correctamente
         } else {
             if (!directori.exists()) {
-                throw new IOException("\nLa carpeta no se pudo crear.\n");
+                throw new IOException("\nERROR: La carpeta no se pudo crear.\n");
             }
         }
     }
@@ -469,7 +469,7 @@ public class Usuario implements Serializable {
      */
     public boolean mostrarDatosParticularesPeliculas() {
         if (peliculas.isEmpty()) {
-            System.out.println("\nTu catalogo de peliculas esta vacio.\n");
+            System.out.println("\nINFORMACION: Tu catalogo de peliculas esta vacio.\n");
             return true;
         }
 
@@ -486,7 +486,7 @@ public class Usuario implements Serializable {
      */
     public boolean mostrarDatosParticularesDirectores() {
         if (directores.isEmpty()) {
-            System.out.println("\nTu catalogo de directores esta vacio.\n");
+            System.out.println("\nINFORMACION: Tu catalogo de directores esta vacio.\n");
             return true;
         }
 
@@ -503,7 +503,7 @@ public class Usuario implements Serializable {
      */
     public boolean mostrarDatosParticularesActores() {
         if (actores.isEmpty()) {
-            System.out.println("\nTu catalogo de actores esta vacio.\n");
+            System.out.println("\nINFORMACION: Tu catalogo de actores esta vacio.\n");
             return true;
         }
 
@@ -662,7 +662,7 @@ public class Usuario implements Serializable {
      */
     public void mostrarOrdenacionPeliculas(Comparator<Pelicula> comparator) {
         if (comparator == null) {
-            Collections.sort(peliculas); // Usa el compareTo de la clase Pelicula
+            Collections.sort(peliculas);
         } else {
             Collections.sort(peliculas, comparator);
         }
