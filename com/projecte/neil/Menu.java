@@ -6,16 +6,19 @@ import com.projecte.pablo.Catalogo;
 import com.projecte.pablo.Director;
 import com.projecte.pablo.Pelicula;
 import com.projecte.utils.ComparadorPorAnyoTitulo;
+import com.projecte.utils.ComparadorPorId;
 import com.projecte.utils.DatoInvalidoException;
 import com.projecte.utils.FiltrarPeliculas;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Scanner;
 
 /**
  * Controla la interacción por consola con el usuario.
  *
- * Gestiona el menú principal, las opciones de catálogo general, la construcción de las listas particulares
+ * Gestiona el menú principal, las opciones de catálogo general, la construcción
+ * de las listas particulares
  * y las operaciones de administración de elementos.
  */
 public class Menu {
@@ -27,9 +30,10 @@ public class Menu {
     private Catalogo catalogo;
 
     /**
-     * Construye el menú de la aplicación con el usuario actual y el catálogo general.
+     * Construye el menú de la aplicación con el usuario actual y el catálogo
+     * general.
      *
-     * @param usuario usuario conectado.
+     * @param usuario  usuario conectado.
      * @param catalogo catálogo general disponible.
      */
     public Menu(Usuario usuario, Catalogo catalogo) {
@@ -63,7 +67,8 @@ public class Menu {
     }
 
     /**
-     * Ejecuta el bucle principal del menú y procesa las opciones seleccionadas por el usuario.
+     * Ejecuta el bucle principal del menú y procesa las opciones seleccionadas por
+     * el usuario.
      */
     public void inicio() {
 
@@ -135,7 +140,8 @@ public class Menu {
     }
 
     /**
-     * Muestra el submenú para seleccionar el tipo de elemento a consultar o gestionar.
+     * Muestra el submenú para seleccionar el tipo de elemento a consultar o
+     * gestionar.
      */
     public void menuSeleccionElementos() {
         System.out.println("""
@@ -206,7 +212,8 @@ public class Menu {
     }
 
     /**
-     * Muestra el submenú para eliminar elementos del catálogo o de las listas particulares.
+     * Muestra el submenú para eliminar elementos del catálogo o de las listas
+     * particulares.
      */
     public void menuEliminarElementos() {
 
@@ -274,6 +281,8 @@ public class Menu {
 
             p = new Pelicula(titulo, anyo, duracion, genero);
             catalogo.anyadirPelicula(p);
+            System.out.println("\nPelicula añadida al catalogo.\n");
+            catalogo.guardarDatosGeneralesPeliculas();
 
         } catch (DatoInvalidoException e) {
             System.out.println(e.getMessage());
@@ -286,7 +295,8 @@ public class Menu {
     /**
      * Solicita los datos de un nuevo director y lo añade al catálogo.
      *
-     * Valida que no exista un director con el mismo nombre completo antes de añadirlo.
+     * Valida que no exista un director con el mismo nombre completo antes de
+     * añadirlo.
      */
     public void altaDirector() {
 
@@ -304,7 +314,8 @@ public class Menu {
 
             if (d != null) {
                 System.out.println("\n" + d.resumen());
-                throw new DatoInvalidoException("INFORMACION: El director " + nombreCompleto + " ya existe en el catálogo.\n");
+                throw new DatoInvalidoException(
+                        "INFORMACION: El director " + nombreCompleto + " ya existe en el catálogo.\n");
             }
 
             System.out.print("Introduce la fecha de nacimiento de " + nombre + " (yyyy/MM/dd): ");
@@ -317,6 +328,8 @@ public class Menu {
 
             d = new Director(nombre, apellidos, fechaNacimiento, nacionalidad);
             catalogo.anyadirDirector(d);
+            System.out.println("\nDirector añadido al catalogo.\n");
+            catalogo.guardarDatosGeneralesDirectores();
 
         } catch (DatoInvalidoException e) {
             System.out.println(e.getMessage());
@@ -345,7 +358,8 @@ public class Menu {
 
             if (a != null) {
                 System.out.println("\n" + a.resumen());
-                throw new DatoInvalidoException("INFORMACION: El actor " + nombreCompleto + " ya existe en el catálogo.\n");
+                throw new DatoInvalidoException(
+                        "INFORMACION: El actor " + nombreCompleto + " ya existe en el catálogo.\n");
             }
 
             System.out.print("Introduce la fecha de nacimiento de " + nombre + " (yyyy/MM/dd): ");
@@ -358,6 +372,8 @@ public class Menu {
 
             a = new Actor(nombre, apellidos, fechaNacimiento, nacionalidad);
             catalogo.anyadirActor(a);
+            System.out.println("\nActor añadido al catalogo.\n");
+            catalogo.guardarDatosGeneralesActores();
 
         } catch (DatoInvalidoException e) {
             System.out.println(e.getMessage());
@@ -388,18 +404,12 @@ public class Menu {
                 switch (opcionSubmenu) {
                     case 1 -> {
                         altaPelicula();
-                        System.out.println("\nPelicula añadida al catalogo.\n");
-                        catalogo.guardarDatosGeneralesPeliculas();
                     }
                     case 2 -> {
                         altaDirector();
-                        System.out.println("\nDirector añadido al catalogo.\n");
-                        catalogo.guardarDatosGeneralesDirectores();
                     }
                     case 3 -> {
                         altaActor();
-                        System.out.println("\nActor añadido al catalogo.\n");
-                        catalogo.guardarDatosGeneralesActores();
                     }
                     case 0 -> {
                         System.out.print("\nVolviendo al menu anterior...\n");
@@ -465,13 +475,16 @@ public class Menu {
     }
 
     /**
-     * Muestra la lista general de películas y permite ver los detalles de una selección.
+     * Muestra la lista general de películas y permite ver los detalles de una
+     * selección.
      *
      * @param opcionSubmenu opción de visualización seleccionada.
      */
     public void listaGeneralPeliculas(int opcionSubmenu) {
         System.out.println("\n----- LISTA GENERAL PELICULAS [Usuario = "
                 + usuario.identificador() + "] -----");
+        // Si no hay comparador explícito, ordenamos por ID usando ComparadorPorId.
+        Collections.sort(catalogo.getPeliculas(), new ComparadorPorId());
         boolean esVacio = catalogo.mostrarDatosGeneralesPeliculas();
 
         if (esVacio) {
@@ -532,6 +545,8 @@ public class Menu {
     public void listaGeneralDirectores(int opcionSubmenu) {
         System.out.println("\n----- LISTA GENERAL DIRECTORES [Usuario = "
                 + usuario.identificador() + "] -----");
+        // Usa la ordenación natural de Director cuando no se proporciona un comparador.
+        Collections.sort(catalogo.getDirectores());
         boolean esVacio = catalogo.mostrarDatosGeneralesDirectores();
 
         if (esVacio) {
@@ -586,6 +601,61 @@ public class Menu {
     }
 
     /**
+     * Muestra el submenú de detalles de película y ordena la lista general
+     * por identificador antes de seleccionar la película.
+     */
+    public void mostrarDetallesPelicula() {
+
+        int opcionSubmenu = 0;
+
+        do {
+
+            try {
+
+                submenuVisualizaciones();
+                opcionSubmenu = Integer.parseInt(entrada.nextLine());
+
+                // Comprueba si la opcion es valida
+                if (opcionSubmenu != 0 && opcionSubmenu != 1) {
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
+                }
+
+                switch (opcionSubmenu) {
+                    case 0:
+                        System.out.println("\nVolviendo al menu anterior...");
+                        break;
+                    case 1:
+                        Collections.sort(catalogo.getPeliculas(), new ComparadorPorId());
+                        System.out.println("\n¿Que pelicula deseas ver con detalle?\n");
+                        catalogo.mostrarDatosGeneralesPeliculas();
+                        System.out.print("\nElige el identificador de la pelicula que desees: ");
+                        String detalles = entrada.nextLine();
+
+                        Pelicula p = catalogo.buscarPelicula(detalles);
+
+                        if (p == null) {
+                            throw new DatoInvalidoException(
+                                    "\nINFORMACION: La pelicula con el identificador " + detalles
+                                            + " no esta en el catalogo.\n");
+                        }
+                        System.out.println();
+                        p.mostrarDetalles();
+
+                        break;
+                    default:
+                        break;
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("\nERROR: Valor no numerico.\n");
+            } catch (DatoInvalidoException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } while (opcionSubmenu != 0);
+    }
+
+    /**
      * Muestra la lista general de actores y permite ver los detalles de uno.
      *
      * @param opcionSubmenu opción de visualización seleccionada.
@@ -593,51 +663,57 @@ public class Menu {
     public void listaGeneralActores(int opcionSubmenu) {
         System.out.println("\n----- LISTA GENERAL ACTORES [Usuario = "
                 + usuario.identificador() + "] -----");
+        // Usa la ordenación natural de Actor cuando no se proporciona un comparador.
+        Collections.sort(catalogo.getActores());
         boolean esVacio = catalogo.mostrarDatosGeneralesActores();
 
         if (esVacio) {
             return;
         }
 
-        try {
+        do {
 
-            submenuVisualizaciones();
-            opcionSubmenu = Integer.parseInt(entrada.nextLine());
+            try {
 
-            // Comprueba si la opcion es valida
-            if (opcionSubmenu != 0 && opcionSubmenu != 1) {
-                throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
+                submenuVisualizaciones();
+                opcionSubmenu = Integer.parseInt(entrada.nextLine());
+
+                // Comprueba si la opcion es valida
+                if (opcionSubmenu != 0 && opcionSubmenu != 1) {
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
+                }
+
+                switch (opcionSubmenu) {
+                    case 0:
+                        System.out.println("\nVolviendo al menu anterior...");
+                        break;
+                    case 1:
+                        System.out.println("\n¿Que actor deseas ver con detalle?\n");
+                        catalogo.mostrarDatosGeneralesActores();
+                        System.out.print("\nElige el identificador del actor que desees: ");
+                        String detalles = entrada.nextLine();
+
+                        Actor a = catalogo.buscarActor(detalles);
+
+                        if (a == null) {
+                            throw new DatoInvalidoException(
+                                    "\nINFORMACION: El actor con el identificador " + detalles
+                                            + " no esta en el catalogo.\n");
+                        }
+                        System.out.println();
+                        a.mostrarDetalles();
+                        break;
+                    default:
+                        break;
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("\nERROR: Valor no numerico.\n");
+            } catch (DatoInvalidoException e) {
+                System.out.println(e.getMessage());
             }
 
-            switch (opcionSubmenu) {
-                case 0:
-                    System.out.println("\nVolviendo al menu anterior...");
-                    break;
-                case 1:
-                    System.out.println("\n¿Que actor deseas ver con detalle?\n");
-                    catalogo.mostrarDatosGeneralesActores();
-                    System.out.print("\nElige el identificador del actor que desees: ");
-                    String detalles = entrada.nextLine();
-
-                    Actor a = catalogo.buscarActor(detalles);
-
-                    if (a == null) {
-                        throw new DatoInvalidoException(
-                                "\nINFORMACION: El actor con el identificador " + detalles
-                                        + " no esta en el catalogo.\n");
-                    }
-                    System.out.println();
-                    a.mostrarDetalles();
-                    break;
-                default:
-                    break;
-            }
-
-        } catch (NumberFormatException e) {
-            System.out.println("\nERROR: Valor no numerico.\n");
-        } catch (DatoInvalidoException e) {
-            System.out.println(e.getMessage());
-        }
+        } while (opcionSubmenu != 0);
     }
 
     /**
@@ -665,20 +741,26 @@ public class Menu {
                     case 2:
                         System.out.println("\n----- LISTA PARTICULAR DIRECTORES [Usuario = "
                                 + usuario.identificador() + "] -----");
+                        // Ordenación por ID cuando no se proporciona otro comparador.
+                        Collections.sort(usuario.getDirectores());
                         boolean esVacio = usuario.mostrarDatosParticularesDirectores();
 
                         if (esVacio) {
                             return;
                         }
+                        detallesParticularesDirectores();
                         break;
                     case 3:
                         System.out.println("\n----- LISTA PARTICULAR ACTORES [Usuario = "
                                 + usuario.identificador() + "] -----");
+                        // Ordenación por ID cuando no se proporciona otro comparador.
+                        Collections.sort(usuario.getActores());
                         boolean estaVacio = usuario.mostrarDatosParticularesActores();
 
                         if (estaVacio) {
                             return;
                         }
+                        detallesParticularesActores();
                         break;
                     case 0:
                         System.out.println("\nVolviendo al menu anterior...\n");
@@ -711,7 +793,7 @@ public class Menu {
                 opcionSubmenu = Integer.parseInt(entrada.nextLine());
 
                 // Comprueba si la opcion es valida
-                if (opcionSubmenu > 4 || opcionSubmenu < 1) {
+                if (opcionSubmenu > 4 || opcionSubmenu < 0) {
                     throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
                 }
 
@@ -720,6 +802,7 @@ public class Menu {
                         System.out.println("\n----- ORDENACION POR TITULO [Usuario = "
                                 + usuario.identificador() + "] -----");
                         usuario.mostrarOrdenacionPeliculas();
+                        detallesParticularesPelicula();
                         break;
                     case 2: // Ordenación por duración
                         System.out.println("\n----- ORDENACION POR DURACION [Usuario = "
@@ -735,6 +818,7 @@ public class Menu {
                                 return 1;
                             }
                         });
+                        detallesParticularesPelicula();
                         break;
                     case 3: // Ordenación usando Comparator con una clase externa
                         System.out.println("\n----- ORDENACION POR AÑO Y TITULO [Usuario = "
@@ -742,6 +826,7 @@ public class Menu {
                         usuario.mostrarOrdenacionPeliculas(new ComparadorPorAnyoTitulo()); // Usa el
                                                                                            // comparador
                                                                                            // personalizado
+                        detallesParticularesPelicula();
                         break;
                     case 4: // Filtrado personalizado usando Iterator
                         System.out.print(
@@ -757,12 +842,19 @@ public class Menu {
                                 .println("\n----- ORDENACION POR FILTRO (DURACION Y GENERO) [Usuario = "
                                         + usuario.identificador() + "] -----");
 
+                        if (!fp.hasNext()) {
+                            System.out.println("\nINFORMACION: Tu catalogo de peliculas esta vacio.\n");
+                        }
+
                         // Recorre las peliculas que cumple el filtro
                         while (fp.hasNext()) {
                             Pelicula p = fp.next();
                             System.out.println(" - " + p.resumen());
                         }
-                        System.out.println();
+                        detallesParticularesPelicula();
+                        break;
+                    case 0:
+                        System.out.println("\nVolviendo al menu anterior...\n");
                         break;
                     default:
                         break;
@@ -774,7 +866,7 @@ public class Menu {
                 System.out.println(e.getMessage());
             }
 
-        } while (opcionSubmenu < 1 || opcionSubmenu > 4);
+        } while (opcionSubmenu != 0);
     }
 
     /**
@@ -791,7 +883,7 @@ public class Menu {
                 opcionSubmenu = Integer.parseInt(entrada.nextLine());
 
                 // Comprueba si la opcion es valida
-                if (opcionSubmenu > 4 || opcionSubmenu < 1) {
+                if (opcionSubmenu > 4 || opcionSubmenu < 0) {
                     throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
                 }
 
@@ -800,6 +892,7 @@ public class Menu {
                         System.out.println("\n----- ORDENACION POR TITULO [Usuario = "
                                 + usuario.identificador() + "] -----");
                         catalogo.mostrarOrdenacionPeliculas();
+                        mostrarDetallesPelicula();
                         break;
                     case 2: // Ordenación por duración
                         System.out.println("\n----- ORDENACION POR DURACION [Usuario = "
@@ -815,6 +908,7 @@ public class Menu {
                                 return 1;
                             }
                         });
+                        mostrarDetallesPelicula();
                         break;
                     case 3: // Ordenación usando Comparator con una clase externa
                         System.out.println("\n----- ORDENACION POR AÑO Y TITULO [Usuario = "
@@ -822,6 +916,7 @@ public class Menu {
                         catalogo.mostrarOrdenacionPeliculas(new ComparadorPorAnyoTitulo()); // Usa el
                                                                                             // comparador
                                                                                             // personalizado
+                        mostrarDetallesPelicula();
                         break;
                     case 4: // Filtrado personalizado usando Iterator
                         System.out.print(
@@ -838,11 +933,18 @@ public class Menu {
                                         + usuario.identificador() + "] -----");
 
                         // Recorre las peliculas que cumple el filtro
+                        if (!fp.hasNext()) {
+                            System.out.println("\nINFORMACION: Tu catalogo de peliculas esta vacio.\n");
+                        }
+
                         while (fp.hasNext()) {
                             Pelicula p = fp.next();
                             System.out.println(" - " + p.resumen());
                         }
-                        System.out.println();
+                        mostrarDetallesPelicula();
+                        break;
+                    case 0:
+                        System.out.println("\nVolviendo al menu anterior...\n");
                         break;
                     default:
                         break;
@@ -854,11 +956,12 @@ public class Menu {
                 System.out.println(e.getMessage());
             }
 
-        } while (opcionSubmenu < 1 || opcionSubmenu > 4);
+        } while (opcionSubmenu != 0);
     }
 
     /**
-     * Gestiona el submenú para eliminar elementos del catálogo o de las listas particulares.
+     * Gestiona el submenú para eliminar elementos del catálogo o de las listas
+     * particulares.
      */
     public void eliminarElementos() {
 
@@ -945,6 +1048,7 @@ public class Menu {
                     case 2:
                         System.out.println("\n----- LISTA PARTICULAR DIRECTORES [Usuario = "
                                 + usuario.identificador() + "] -----");
+                        Collections.sort(usuario.getDirectores());
                         boolean vacio = usuario.mostrarDatosParticularesDirectores();
 
                         if (vacio) {
@@ -969,6 +1073,7 @@ public class Menu {
                     case 3:
                         System.out.println("\n----- LISTA PARTICULAR ACTORES [Usuario = "
                                 + usuario.identificador() + "] -----");
+                        Collections.sort(usuario.getActores());
                         boolean estaVacio = usuario.mostrarDatosParticularesActores();
 
                         if (estaVacio) {
@@ -1123,7 +1228,8 @@ public class Menu {
     }
 
     /**
-     * Permite al usuario construir sus propias listas particulares de películas, directores o actores.
+     * Permite al usuario construir sus propias listas particulares de películas,
+     * directores o actores.
      */
     public void construirListaParticular() {
         int opcionSubmenu = 0;
@@ -1167,10 +1273,13 @@ public class Menu {
 
     /**
      * Añade una película de la lista general a la lista particular del usuario.
+     *
+     * Ordena previamente las películas por ID cuando no se usa otro comparador.
      */
     public void listaParticularPelicula() {
         System.out.println("\n----- LISTA GENERAL PELICULAS [Usuario = "
                 + usuario.identificador() + "] -----");
+        Collections.sort(catalogo.getPeliculas(), new ComparadorPorId());
         boolean esVacio = catalogo.mostrarDatosGeneralesPeliculas();
 
         if (esVacio) {
@@ -1188,6 +1297,14 @@ public class Menu {
                             + " no esta en el catalogo.\n");
         }
 
+        Pelicula pelicula = usuario.buscarPelicula(p.getIdentificador());
+
+        if (pelicula != null) {
+            throw new DatoInvalidoException(
+                    "\nINFORMACION: La pelicula " + p.getTitulo()
+                            + " esta ya en la lista.\n");
+        }
+
         usuario.anyadirPelicula(p);
         usuario.guardarDatosParticularesPeliculas();
         System.out.println("\nPelicula añadida a la lista particular de " + usuario.nombreCompleto() + ".\n");
@@ -1195,10 +1312,13 @@ public class Menu {
 
     /**
      * Añade un director de la lista general a la lista particular del usuario.
+     *
+     * Ordena previamente los directores por su orden natural (ID) al mostrar el catálogo.
      */
     public void listaParticularDirector() {
         System.out.println("\n----- LISTA GENERAL DIRECTORES [Usuario = "
                 + usuario.identificador() + "] -----");
+        Collections.sort(catalogo.getDirectores());
         boolean esVacio = catalogo.mostrarDatosGeneralesDirectores();
 
         if (esVacio) {
@@ -1216,6 +1336,14 @@ public class Menu {
                             + " no esta en el catalogo.\n");
         }
 
+        Director director = usuario.buscarDirector(d.getIdentificador());
+
+        if (director != null) {
+            throw new DatoInvalidoException(
+                    "\nINFORMACION: El director " + d.nombreCompleto()
+                            + " esta ya en la lista.\n");
+        }
+
         usuario.anyadirDirector(d);
         usuario.guardarDatosParticularesDirectores();
         System.out.println("\nDirector añadido a la lista particular de " + usuario.nombreCompleto() + ".\n");
@@ -1223,10 +1351,13 @@ public class Menu {
 
     /**
      * Añade un actor de la lista general a la lista particular del usuario.
+     *
+     * Ordena previamente los actores por su orden natural (ID) al mostrar el catálogo.
      */
     public void listaParticularActor() {
         System.out.println("\n----- LISTA GENERAL ACTORES [Usuario = "
                 + usuario.identificador() + "] -----");
+        Collections.sort(catalogo.getActores());
         boolean esVacio = catalogo.mostrarDatosGeneralesActores();
 
         if (esVacio) {
@@ -1244,9 +1375,182 @@ public class Menu {
                             + " no esta en el catalogo.\n");
         }
 
+        Actor actor = usuario.buscarActor(a.getIdentificador());
+
+        if (actor != null) {
+            throw new DatoInvalidoException(
+                    "\nINFORMACION: El actor " + a.nombreCompleto()
+                            + " esta ya en la lista.\n");
+        }
+
         usuario.anyadirActor(a);
         usuario.guardarDatosParticularesActores();
         System.out.println("\nActor añadida a la lista particular de " + usuario.nombreCompleto() + ".\n");
+    }
+
+    /**
+     * Muestra el submenú de detalles para directores en la lista particular.
+     *
+     * Ordena los directores por su orden natural (ID) antes de mostrar la lista.
+     */
+    public void detallesParticularesDirectores() {
+
+        int opcionSubmenu = 0;
+
+        do {
+
+            try {
+
+                submenuVisualizaciones();
+                opcionSubmenu = Integer.parseInt(entrada.nextLine());
+
+                // Comprueba si la opcion es valida
+                if (opcionSubmenu != 0 && opcionSubmenu != 1) {
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
+                }
+
+                switch (opcionSubmenu) {
+                    case 0:
+                        System.out.println("\nVolviendo al menu anterior...");
+                        break;
+                    case 1:
+                        Collections.sort(usuario.getDirectores());
+                        System.out.println("\n¿Que director deseas ver con detalle?\n");
+                        usuario.mostrarDatosParticularesDirectores();
+                        System.out.print("\nElige el identificador del director que desees: ");
+                        String detalles = entrada.nextLine();
+
+                        Director d = usuario.buscarDirector(detalles);
+
+                        if (d == null) {
+                            throw new DatoInvalidoException(
+                                    "\nINFORMACION: El director con el identificador " + detalles
+                                            + " no esta en el catalogo.\n");
+                        }
+                        System.out.println();
+                        d.mostrarDetalles();
+                        break;
+                    default:
+                        break;
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("\nERROR: Valor no numerico.\n");
+            } catch (DatoInvalidoException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } while (opcionSubmenu != 0);
+    }
+
+    /**
+     * Muestra el submenú de detalles para actores en la lista particular.
+     *
+     * Ordena los actores por su orden natural (ID) antes de mostrar la lista.
+     */
+    public void detallesParticularesActores() {
+
+        int opcionSubmenu = 0;
+
+        do {
+
+            try {
+
+                submenuVisualizaciones();
+                opcionSubmenu = Integer.parseInt(entrada.nextLine());
+
+                // Comprueba si la opcion es valida
+                if (opcionSubmenu != 0 && opcionSubmenu != 1) {
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
+                }
+
+                switch (opcionSubmenu) {
+                    case 0:
+                        System.out.println("\nVolviendo al menu anterior...");
+                        break;
+                    case 1:
+                        Collections.sort(usuario.getActores());
+                        System.out.println("\n¿Que actor deseas ver con detalle?\n");
+                        usuario.mostrarDatosParticularesActores();
+                        System.out.print("\nElige el identificador del actor que desees: ");
+                        String detalles = entrada.nextLine();
+
+                        Actor a = usuario.buscarActor(detalles);
+
+                        if (a == null) {
+                            throw new DatoInvalidoException(
+                                    "\nINFORMACION: El actor con el identificador " + detalles
+                                            + " no esta en el catalogo.\n");
+                        }
+                        System.out.println();
+                        a.mostrarDetalles();
+                        break;
+                    default:
+                        break;
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("\nERROR: Valor no numerico.\n");
+            } catch (DatoInvalidoException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } while (opcionSubmenu != 0);
+    }
+
+    /**
+     * Muestra el submenú de detalles para películas en la lista particular.
+     *
+     * Ordena las películas por ID cuando no se especifica otro comparador.
+     */
+    public void detallesParticularesPelicula() {
+
+        int opcionSubmenu = 0;
+
+        do {
+
+            try {
+
+                submenuVisualizaciones();
+                opcionSubmenu = Integer.parseInt(entrada.nextLine());
+
+                // Comprueba si la opcion es valida
+                if (opcionSubmenu != 0 && opcionSubmenu != 1) {
+                    throw new DatoInvalidoException("\nERROR: Valor fuera de rango.\n");
+                }
+
+                switch (opcionSubmenu) {
+                    case 0:
+                        System.out.println("\nVolviendo al menu anterior...");
+                        break;
+                    case 1:
+                        Collections.sort(usuario.getPeliculas(), new ComparadorPorId());
+                        System.out.println("\n¿Que pelicula deseas ver con detalle?\n");
+                        usuario.mostrarDatosParticularesPeliculas();
+                        System.out.print("\nElige el identificador de la pelicula que desees: ");
+                        String detalles = entrada.nextLine();
+
+                        Pelicula p = usuario.buscarPelicula(detalles);
+
+                        if (p == null) {
+                            throw new DatoInvalidoException(
+                                    "\nINFORMACION: La pelicula con el identificador " + detalles
+                                            + " no esta en el catalogo.\n");
+                        }
+                        System.out.println();
+                        p.mostrarDetalles();
+                        break;
+                    default:
+                        break;
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("\nERROR: Valor no numerico.\n");
+            } catch (DatoInvalidoException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } while (opcionSubmenu != 0);
     }
 
 }

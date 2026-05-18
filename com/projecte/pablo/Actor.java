@@ -10,7 +10,7 @@ import java.time.LocalDate;
  *
  * Esta clase es serializable para poder guardarla en fichero y forma parte del catálogo.
  */
-public class Actor implements Serializable, Gestionable {
+public class Actor implements Serializable, Gestionable, Comparable<Actor> {
 
     // Contador estático para generar IDs automáticos
     protected static int contador = 0;
@@ -164,6 +164,23 @@ public class Actor implements Serializable, Gestionable {
                 calcularEdad(),
                 fechaNacimiento,
                 nacionalidad));
+    }
+
+    /**
+     * Ordenación natural de actores por su identificador numérico.
+     *
+     * @param o actor con el que se compara.
+     * @return negativo si este actor tiene id menor, cero si son iguales, positivo si es mayor.
+     */
+    @Override
+    public int compareTo(Actor o) {
+        if (Integer.compare(id, o.getId()) == 0) {
+            return 0;
+        } else if (Integer.compare(id, o.getId()) < 0) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     // toString

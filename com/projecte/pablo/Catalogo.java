@@ -329,6 +329,10 @@ public class Catalogo implements Iterable<Pelicula> {
 
         Iterator<Pelicula> it = peliculas.iterator();
 
+        if (!it.hasNext()) {
+            System.out.println("\nINFORMACION: Tu catalogo de peliculas esta vacio.\n");
+        }
+
         while (it.hasNext()) {
             Pelicula p = it.next();
             System.out.println(" - " + p.resumen());

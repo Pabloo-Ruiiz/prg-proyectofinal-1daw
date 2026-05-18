@@ -10,7 +10,7 @@ import java.time.LocalDate;
  *
  * Esta clase es serializable para poder guardarla en fichero y forma parte del catálogo.
  */
-public class Director implements Serializable, Gestionable {
+public class Director implements Serializable, Gestionable, Comparable<Director> {
 
     // Contador estático para generar IDs automáticos
     protected static int contador = 0;
@@ -164,6 +164,23 @@ public class Director implements Serializable, Gestionable {
                 calcularEdad(),
                 fechaNacimiento,
                 nacionalidad));
+    }
+
+    /**
+     * Ordenación natural de directores por su identificador numérico.
+     *
+     * @param o director con el que se compara.
+     * @return negativo si este director tiene id menor, cero si son iguales, positivo si es mayor.
+     */
+    @Override
+    public int compareTo(Director o) {
+        if (Integer.compare(id, o.getId()) == 0) {
+            return 0;
+        } else if (Integer.compare(id, o.getId()) < 0) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     // toString
