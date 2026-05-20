@@ -101,16 +101,21 @@ public class Catalogo implements Iterable<Pelicula> {
 
         if (file.exists()) {
 
+            int mayorId = 0;
+
             try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("datos/peliculas.datos"));) {
 
                 while (true) {
                     Pelicula p = (Pelicula) in.readObject();
                     peliculas.add(p);
-                    Pelicula.contador++;
+                    if (p.getId() > mayorId) {
+                        mayorId = p.getId();
+                    }
                 }
 
             } catch (EOFException e) {
                 // Fin del fichero
+                Pelicula.contador = mayorId;
             } catch (IOException e) {
                 System.out.println("\n" + e.getMessage() + "\n");
                 e.printStackTrace();
@@ -140,16 +145,21 @@ public class Catalogo implements Iterable<Pelicula> {
 
         if (file.exists()) {
 
+            int mayorId = 0;
+
             try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("datos/directores.datos"));) {
 
                 while (true) {
                     Director d = (Director) in.readObject();
                     directores.add(d);
-                    Director.contador++;
+                    if (d.getId() > mayorId) {
+                        mayorId = d.getId();
+                    }
                 }
 
             } catch (EOFException e) {
                 // Fin del fichero
+                Director.contador = mayorId;
             } catch (IOException e) {
                 System.out.println("\n" + e.getMessage() + "\n");
                 e.printStackTrace();
@@ -179,16 +189,21 @@ public class Catalogo implements Iterable<Pelicula> {
 
         if (file.exists()) {
 
+            int mayorId = 0;
+
             try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("datos/actores.datos"));) {
 
                 while (true) {
                     Actor a = (Actor) in.readObject();
                     actores.add(a);
-                    Actor.contador++;
+                    if (a.getId() > mayorId) {
+                        mayorId = a.getId();
+                    }
                 }
 
             } catch (EOFException e) {
                 // Fin del fichero
+                Actor.contador = mayorId;
             } catch (IOException e) {
                 System.out.println("\n" + e.getMessage() + "\n");
                 e.printStackTrace();
