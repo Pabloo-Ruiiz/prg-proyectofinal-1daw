@@ -38,6 +38,8 @@ public class Usuario implements Serializable {
         ROL_USUARIO, ROL_ADMIN;
     }
 
+    private static final long serialVersionUID = 1L;
+
     // Contador estático para generar IDs automáticos
     protected static int contador = 0;
 
