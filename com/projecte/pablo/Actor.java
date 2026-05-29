@@ -12,6 +12,8 @@ import java.time.LocalDate;
  */
 public class Actor implements Serializable, Gestionable, Comparable<Actor> {
 
+    private static final long serialVersionUID = 1L;
+
     // Contador estático para generar IDs automáticos
     protected static int contador = 0;
 

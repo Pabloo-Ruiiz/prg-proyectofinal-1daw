@@ -1024,6 +1024,7 @@ public class Menu {
                     case 1:
                         System.out.println("\n----- LISTA PARTICULAR PELICULAS [Usuario = "
                                 + usuario.identificador() + "] -----");
+                        Collections.sort(usuario.getPeliculas(), new ComparadorPorId());
                         boolean esVacio = usuario.mostrarDatosParticularesPeliculas();
 
                         if (esVacio) {
@@ -1136,6 +1137,7 @@ public class Menu {
                         case 1:
                             System.out.println("\n----- LISTA GENERAL PELICULAS [Usuario = "
                                     + usuario.identificador() + "] -----");
+                            Collections.sort(catalogo.getPeliculas(), new ComparadorPorId());
                             boolean esVacio = catalogo.mostrarDatosGeneralesPeliculas();
 
                             if (esVacio) {
@@ -1160,6 +1162,7 @@ public class Menu {
                         case 2:
                             System.out.println("\n----- LISTA GENERAL DIRECTORES [Usuario = "
                                     + usuario.identificador() + "] -----");
+                            Collections.sort(catalogo.getDirectores());
                             boolean vacio = catalogo.mostrarDatosGeneralesDirectores();
 
                             if (vacio) {
@@ -1184,6 +1187,7 @@ public class Menu {
                         case 3:
                             System.out.println("\n----- LISTA GENERAL ACTORES [Usuario = "
                                     + usuario.identificador() + "] -----");
+                            Collections.sort(catalogo.getActores());
                             boolean estaVacio = catalogo.mostrarDatosGeneralesActores();
 
                             if (estaVacio) {

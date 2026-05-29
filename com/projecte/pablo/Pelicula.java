@@ -16,6 +16,8 @@ public class Pelicula implements Serializable, Comparable<Pelicula>, Gestionable
         ACCION, AVENTURA, COMEDIA, DRAMA, TERROR, FICCION, FANTASIA, ROMANTICA, MUSICAL, DOCUMENTAL;
     }
 
+    private static final long serialVersionUID = 1L;
+
     // Contador estático para generar IDs automáticos
     protected static int contador = 0;
 
